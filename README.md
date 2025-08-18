@@ -8,13 +8,14 @@ A Planting and Landscaping Service Management System
 
 2. create a branch with your name:
 
-   `git checkout -b YOURNAME`
+   `git checkout -b YOUR-NAME`
 
-   - Note: replace YOURNAME with your name, this will create a branch for you and move to it automatically.
+   - Note: replace YOUR-NAME with your name (preferably all small letters)
+   - This will create a branch for you and move to it automatically.
 
 3. setup your remote branch:
 
-   `git `
+   `git push --set-upstream origin YOUR-NAME`
 
 4. Create database in dataGrip:
     - Note: start MySQL and Apache servers
