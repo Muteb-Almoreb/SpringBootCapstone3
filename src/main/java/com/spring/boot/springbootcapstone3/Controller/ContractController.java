@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/contract")
+@RequestMapping("/api/v1/contract")
 @RequiredArgsConstructor
 public class ContractController { // Created by Abdullah Alwael
     private final ContractService contractService;
