@@ -1,11 +1,12 @@
 package com.spring.boot.springbootcapstone3.Repository;
 
-import com.spring.boot.springbootcapstone3.Model.Admin;
+import com.spring.boot.springbootcapstone3.Model.Vendor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AdminRepository extends JpaRepository<Admin, Integer> {
+public interface VendorRepository extends JpaRepository<Vendor,Integer> {
     boolean existsByEmail(String email);
-    Admin findAdminById(Integer id);
+    boolean existsByPhone(String phone);
+    Vendor findVendorById(Integer id);
 }

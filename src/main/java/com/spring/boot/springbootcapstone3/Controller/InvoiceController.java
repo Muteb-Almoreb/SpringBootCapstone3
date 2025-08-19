@@ -1,7 +1,7 @@
 package com.spring.boot.springbootcapstone3.Controller;
 
 import com.spring.boot.springbootcapstone3.API.ApiResponse;
-import com.spring.boot.springbootcapstone3.Model.Invoice;
+import com.spring.boot.springbootcapstone3.DTO.InvoiceDTOIn;
 import com.spring.boot.springbootcapstone3.Service.InvoiceService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +16,8 @@ public class InvoiceController { // Created by Abdullah Alwael
     private final InvoiceService invoiceService;
 
     @PostMapping("/add")
-    public ResponseEntity<?> addInvoice(@Valid @RequestBody Invoice invoice){
-        invoiceService.addInvoice(invoice);
+    public ResponseEntity<?> addInvoice(@Valid @RequestBody InvoiceDTOIn invoiceDTOIn){
+        invoiceService.addInvoice(invoiceDTOIn);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Invoice added successfully"));
     }
 
@@ -27,9 +27,10 @@ public class InvoiceController { // Created by Abdullah Alwael
 
     }
 
-    @PutMapping("/update/{invoiceId}")
-    public ResponseEntity<?> updateInvoice(@PathVariable Integer invoiceId, @Valid @RequestBody Invoice invoice){
-        invoiceService.updateInvoice(invoiceId, invoice);
+    // id is not needed, it will be the same id as contract id gotten from the DTO
+    @PutMapping("/update")
+    public ResponseEntity<?> updateInvoice(@Valid @RequestBody InvoiceDTOIn invoiceDTOIn){
+        invoiceService.updateInvoice(invoiceDTOIn);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Invoice updated successfully"));
 
     }

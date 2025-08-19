@@ -3,7 +3,6 @@ package com.spring.boot.springbootcapstone3.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +18,7 @@ import java.time.LocalDateTime;
 public class Invoice { // Created by Abdullah Alwael
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // the id does not need to be generated, it will take the id of the contract
     private Integer id;
     
     @NotEmpty(message = "toEmail should not be empty")
