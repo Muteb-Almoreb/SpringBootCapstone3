@@ -1,5 +1,6 @@
 package com.spring.boot.springbootcapstone3.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -39,8 +40,10 @@ public class Organization {
     private String commercialRegister;
 
     @OneToMany(cascade = CascadeType.ALL , mappedBy = "organization")
+    @JsonIgnore
     private Set<ServiceRequest> serviceRequests;
 
     @OneToMany(cascade = CascadeType.ALL , mappedBy = "organization")
+    @JsonIgnore
     private Set<Contract> contracts;
 }

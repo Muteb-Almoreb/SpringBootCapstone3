@@ -1,5 +1,6 @@
 package com.spring.boot.springbootcapstone3.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -52,4 +53,11 @@ public class Vendor {
 
     @OneToMany(cascade = CascadeType.ALL , mappedBy = "vendor")
     private Set<Contract> contracts;
+
+
+
+    @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Offer> offers;
+
 }

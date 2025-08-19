@@ -58,15 +58,16 @@ public class ServiceRequest {
     @JsonIgnore
     private Organization organization;
 
-<<<<<<< HEAD
+
 
 
     @OneToMany(mappedBy = "serviceRequest", cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Offer> offers;
-=======
+
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "serviceRequest")
     @PrimaryKeyJoinColumn
+    @JsonIgnore
     private Contract contract;
->>>>>>> origin/main
+
 }
