@@ -33,6 +33,7 @@ public class ContractService { // Created by Abdullah Alwael
         }
 
         oldContract.setContractLocationName(contract.getContractLocationName());
+        oldContract.setContractLocationUrl(contract.getContractLocationUrl());
         oldContract.setContractItemsJson(contract.getContractItemsJson());
         oldContract.setCareScope(contract.getCareScope());
         oldContract.setStartDate(contract.getStartDate());

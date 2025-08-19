@@ -1,5 +1,6 @@
 package com.spring.boot.springbootcapstone3.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -20,10 +21,6 @@ public class Invoice { // Created by Abdullah Alwael
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @NotNull(message = "contractId should not be empty")
-    @Column(columnDefinition = "int not null")
-    private Integer contractId;
     
     @NotEmpty(message = "toEmail should not be empty")
     @Column(columnDefinition = "varchar(30) not null")
@@ -38,8 +35,8 @@ public class Invoice { // Created by Abdullah Alwael
     private LocalDateTime issuedAt;
     
     // calculated by the system
-    @Column(columnDefinition = "varchar(30) not null")
-    private String status;
+//    @Column(columnDefinition = "varchar(30) not null")
+//    private String status;
     
     @NotEmpty(message = "paymentMethod should not be empty")
     @Column(columnDefinition = "varchar(30) not null")
@@ -52,5 +49,10 @@ public class Invoice { // Created by Abdullah Alwael
     @NotEmpty(message = "providerReference should not be empty")
     @Column(columnDefinition = "varchar(30) not null")
     private String providerReference;
+
+    @OneToOne
+    @JsonIgnore
+    @MapsId
+    private Contract contract;
 
 }
