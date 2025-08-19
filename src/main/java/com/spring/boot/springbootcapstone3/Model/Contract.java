@@ -43,15 +43,15 @@ public class Contract { // created by Abdullah Alwael
     private String status;
 
     @NotEmpty(message = "contractLocationName should not be empty")
-    @Column(columnDefinition = "varchar(30) not null")
+    @Column(columnDefinition = "varchar(100) not null")
     private String contractLocationName;
 
     @NotEmpty(message = "contractLocationName should not be empty")
-    @Column(columnDefinition = "varchar(30) not null")
+    @Column(columnDefinition = "varchar(200) not null")
     private String contractLocationUrl;
 
     @NotEmpty(message = "contractItemsJson should not be empty")
-    @Column(columnDefinition = "varchar(30) not null")
+    @Column(columnDefinition = "varchar(200) not null")
     private String contractItemsJson;// JSON?
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "contract")

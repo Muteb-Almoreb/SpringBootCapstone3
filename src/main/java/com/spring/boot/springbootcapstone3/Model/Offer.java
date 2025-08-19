@@ -28,7 +28,7 @@ public class Offer {
 
     @NotNull( message = "Price cant be null")
     @Column(columnDefinition = "double not null default 0")
-    private Double Price = 0.0;
+    private Double price = 0.0;
 
 
 
@@ -42,7 +42,7 @@ public class Offer {
 
 
     @Pattern(
-            regexp = "(?i)^(pending|approved|paid|released|rejected|attended)$",
+            regexp = "(?i)^(pending|approved|rejected|WITHDRAWN)$",
             message = "Status must be one of: Pending, Approved, Paid, Released, Rejected, Attended"
     )
     @Column(columnDefinition = "varchar(20) not null")
@@ -57,7 +57,9 @@ public class Offer {
     @JsonIgnore
     private ServiceRequest serviceRequest;
 
-
+    @ManyToOne
+    @JsonIgnore
+    private Vendor vendor;
 
 
 
