@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/invoice")
+@RequestMapping("/api/v1/invoice")
 @RequiredArgsConstructor
 public class InvoiceController { // Created by Abdullah Alwael
     private final InvoiceService invoiceService;
