@@ -45,6 +45,10 @@ public class Contract { // created by Abdullah Alwael
     @Column(columnDefinition = "varchar(30) not null")
     private String contractLocationName;
 
+    @NotEmpty(message = "contractLocationName should not be empty")
+    @Column(columnDefinition = "varchar(30) not null")
+    private String contractLocationUrl;
+
     @NotEmpty(message = "contractItemsJson should not be empty")
     @Column(columnDefinition = "varchar(30) not null")
     private String contractItemsJson;// JSON?
@@ -60,4 +64,8 @@ public class Contract { // created by Abdullah Alwael
     @NotNull(message = "vendorId should not be empty")
     @Column(columnDefinition = "int not null")
     private Integer vendorId;
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "contract")
+    @PrimaryKeyJoinColumn
+    private Invoice invoice;
 }

@@ -33,8 +33,7 @@ public class InvoiceService { // Created by Abdullah Alwael
         }
 
         oldInvoice.setAmount(invoice.getAmount());
-        oldInvoice.setContractId(invoice.getContractId());
-        oldInvoice.setStatus(invoice.getStatus());
+//        oldInvoice.setStatus(invoice.getStatus());
         oldInvoice.setPaidAt(invoice.getPaidAt());
         oldInvoice.setIssuedAt(invoice.getIssuedAt());
         oldInvoice.setPaymentMethod(invoice.getPaymentMethod());
