@@ -26,7 +26,6 @@ public class ServiceRequest {
 //    @Column(columnDefinition = "varchar(20) not null")
 //    private Integer organizationId;
 
-
     @NotEmpty(message = "The title must not be empty")
     @Column(columnDefinition = "varchar(100) not null")
     private String title;
@@ -35,16 +34,12 @@ public class ServiceRequest {
     @Column(columnDefinition = "varchar(200) not null")
     private String description;
 
-
-
-//    @Pattern(
+    //    @Pattern(
 //            regexp = "(?i)^(pending|approved|paid|released|rejected|attended)$",
 //            message = "Status must be one of: Pending, Approved, Paid, Released, Rejected, Attended"
 //    )
     @Column(columnDefinition = "varchar(20) not null")
     private String status;
-
-
 
     @Column(columnDefinition = "timestamp default current_timestamp")
     private LocalDateTime createdAt;
@@ -53,19 +48,16 @@ public class ServiceRequest {
     @Column(columnDefinition = "varchar(200) not null")
     private String location;
 
-
-
     @Column(columnDefinition = "varchar(500)")
     private String locationUrl;
-
-
-
-
-
 
     @ManyToOne
     //هاذي اختياري
 //    @JoinColumn(name = "merchantId" , referencedColumnName = "id")
     @JsonIgnore
     private Organization organization;
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "serviceRequest")
+    @PrimaryKeyJoinColumn
+    private Contract contract;
 }

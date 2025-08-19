@@ -41,6 +41,6 @@ public class Organization {
     @OneToMany(cascade = CascadeType.ALL , mappedBy = "organization")
     private Set<ServiceRequest> serviceRequests;
 
-
-
+    @OneToMany(cascade = CascadeType.ALL , mappedBy = "organization")
+    private Set<Contract> contracts;
 }

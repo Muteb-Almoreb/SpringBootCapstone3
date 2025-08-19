@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Check;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -48,4 +50,6 @@ public class Vendor {
             message = "Status must be PENDING, APPROVED, REJECTED, or SUSPENDED")
     private String approvalStatus = "PENDING";
 
+    @OneToMany(cascade = CascadeType.ALL , mappedBy = "vendor")
+    private Set<Contract> contracts;
 }
