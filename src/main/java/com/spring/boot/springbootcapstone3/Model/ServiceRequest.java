@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -57,7 +58,15 @@ public class ServiceRequest {
     @JsonIgnore
     private Organization organization;
 
+<<<<<<< HEAD
+
+
+    @OneToMany(mappedBy = "serviceRequest", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Offer> offers;
+=======
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "serviceRequest")
     @PrimaryKeyJoinColumn
     private Contract contract;
+>>>>>>> origin/main
 }
