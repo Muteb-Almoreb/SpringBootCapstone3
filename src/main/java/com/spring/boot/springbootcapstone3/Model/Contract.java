@@ -1,5 +1,6 @@
 package com.spring.boot.springbootcapstone3.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -53,19 +54,21 @@ public class Contract { // created by Abdullah Alwael
     @Column(columnDefinition = "varchar(30) not null")
     private String contractItemsJson;// JSON?
 
-    @NotNull(message = "requestId should not be empty")
-    @Column(columnDefinition = "int not null")
-    private Integer requestId;
-
-    @NotNull(message = "organizationId should not be empty")
-    @Column(columnDefinition = "int not null")
-    private Integer organizationId;
-
-    @NotNull(message = "vendorId should not be empty")
-    @Column(columnDefinition = "int not null")
-    private Integer vendorId;
-
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "contract")
     @PrimaryKeyJoinColumn
     private Invoice invoice;
+
+    @OneToOne
+    @JsonIgnore
+    @MapsId
+    private ServiceRequest serviceRequest;
+
+    @ManyToOne
+    @JsonIgnore
+    private Organization organization;
+
+    @ManyToOne
+    @JsonIgnore
+    private Vendor vendor;
+
 }
