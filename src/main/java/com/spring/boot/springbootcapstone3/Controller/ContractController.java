@@ -1,6 +1,7 @@
 package com.spring.boot.springbootcapstone3.Controller;
 
 import com.spring.boot.springbootcapstone3.API.ApiResponse;
+import com.spring.boot.springbootcapstone3.DTO.ContractDTOIn;
 import com.spring.boot.springbootcapstone3.Model.Contract;
 import com.spring.boot.springbootcapstone3.Service.ContractService;
 import jakarta.validation.Valid;
@@ -16,8 +17,8 @@ public class ContractController { // Created by Abdullah Alwael
     private final ContractService contractService;
 
     @PostMapping("/add")
-    public ResponseEntity<?> addContract(@Valid @RequestBody Contract contract){
-        contractService.addContract(contract);
+    public ResponseEntity<?> addContract(@Valid @RequestBody ContractDTOIn contractDTOIn){
+        contractService.addContract(contractDTOIn);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Contract added successfully"));
     }
 
@@ -27,9 +28,10 @@ public class ContractController { // Created by Abdullah Alwael
 
     }
 
-    @PutMapping("/update/{contractId}")
-    public ResponseEntity<?> updateContract(@PathVariable Integer contractId, @Valid @RequestBody Contract contract){
-        contractService.updateContract(contractId, contract);
+    // the id is the same as the request id
+    @PutMapping("/update")
+    public ResponseEntity<?> updateContract(@Valid @RequestBody ContractDTOIn contractDTOIn){
+        contractService.updateContract(contractDTOIn);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Contract updated successfully"));
 
     }

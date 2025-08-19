@@ -38,7 +38,7 @@ public class Contract { // created by Abdullah Alwael
     @Column(columnDefinition = "varchar(30) not null")
     private String careScope; // JSON?
 
-    @NotEmpty(message = "status should not be empty")
+    // should be calculated by the system?
     @Column(columnDefinition = "varchar(30) not null")
     private String status;
 

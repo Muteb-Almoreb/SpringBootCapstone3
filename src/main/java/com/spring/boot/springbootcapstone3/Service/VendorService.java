@@ -25,6 +25,10 @@ public class VendorService {
         return vendorRepository.findAll();
     }
 
+    public Vendor getVendor(Integer vendorId){
+        return vendorRepository.findVendorById(vendorId);
+    }
+
     public void addVendor(Vendor in) {
         if (vendorRepository.existsByEmail(in.getEmail()))
             throw new ApiException("Email already exists");
