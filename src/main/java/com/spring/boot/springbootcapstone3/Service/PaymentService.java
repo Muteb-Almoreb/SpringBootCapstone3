@@ -28,7 +28,7 @@ public class PaymentService {
                 paymentRequest.getCvc(),
                 paymentRequest.getMonth(),
                 paymentRequest.getYear(),
-                (int) (paymentRequest.getAmount()*100), // must convert to the smallest currency unit?
+                (int) (paymentRequest.getAmount()*100), // must convert to the smallest currency unit, to add the halala
                 paymentRequest.getCurrency(),
                 callBackUrl
         );
