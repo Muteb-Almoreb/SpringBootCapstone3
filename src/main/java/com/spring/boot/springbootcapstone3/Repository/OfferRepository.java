@@ -19,4 +19,7 @@ public interface OfferRepository extends JpaRepository <Offer , Integer> {
 
     Boolean existsByServiceRequest_IdAndVendor_Id(Integer serviceRequestId, Integer vendorId);
 
+    List<Offer> findAllByServiceRequest_IdAndStatusNot(Integer serviceRequestId, String status);
+
+
 }

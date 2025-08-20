@@ -43,8 +43,8 @@ public class Offer {
 
 
     @Pattern(
-            regexp = "(?i)^(PENDING|APPROVED|REJECTED|WITHDRAWN)$",
-            message = "Status must be one of: PENDING, APPROVED, REJECTED, WITHDRAWN"
+            regexp = "(?i)^(PENDING|ACCEPTED|REJECTED|WITHDRAWN)$",
+            message = "Status must be one of: PENDING, ACCEPTED, REJECTED, WITHDRAWN"
     )
     @Column(columnDefinition = "varchar(20) not null")
     private String status = "PENDING";

@@ -103,9 +103,10 @@ public class ContractService {
         OfferDTO offerDto = (offer == null) ? null :
                 new OfferDTO(
                         offer.getId(),
+                        offer.getPrice() ,
                         offer.getTitle(),
-                        offer.getDescription(),
-                        offer.getPrice()
+                        offer.getDescription()
+
                 );
 
         VendorSummaryDTO vendorDto = (vendor == null) ? null :

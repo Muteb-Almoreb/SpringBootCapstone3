@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,11 @@ public class ServiceRequest {
     private String description;
 
 
+    @Pattern(
+            regexp = "^(?i)(OPEN|CLOSED)$",
+            message = "Status must be one of: OPEN, CLOSED"
+    )
+    @Column(columnDefinition = "varchar(20) not null")
     private String status;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")

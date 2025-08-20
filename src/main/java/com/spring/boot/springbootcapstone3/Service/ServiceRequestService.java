@@ -37,14 +37,21 @@ public class ServiceRequestService {
         return serviceRequestRepository.findAllByOrganization_Id(organizationId);
     }
 
+
+
+
     public void add(Integer organizationId, ServiceRequest req) {
         Organization org = organizationRepository.findOrganizationById(organizationId);
-        if (org == null)
-            throw new ApiException("Organization id not found");
+        if (org == null) throw new ApiException("Organization id not found");
 
         req.setOrganization(org);
-        if (req.getCreatedAt() == null)
-            req.setCreatedAt(LocalDateTime.now());
+        if (req.getCreatedAt() == null) req.setCreatedAt(LocalDateTime.now());
+
+        if (req.getStatus() == null || req.getStatus().isBlank()) {
+            req.setStatus("OPEN");
+        } else if (!req.getStatus().equalsIgnoreCase("OPEN") && !req.getStatus().equalsIgnoreCase("CLOSED")) {
+            throw new ApiException("Status must be OPEN or CLOSED");
+        }
 
         serviceRequestRepository.save(req);
     }
