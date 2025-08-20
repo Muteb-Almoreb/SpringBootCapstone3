@@ -3,6 +3,7 @@ package com.spring.boot.springbootcapstone3.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,12 @@ public class Contract {
     @NotNull(message = "endDate should not be empty")
     @Column(columnDefinition = "datetime not null")
     private LocalDate endDate;
+
+    @Column(columnDefinition = "varchar(20) not null")
+    private String status = "UNPAID";
+
+    @Column(columnDefinition = "varchar(255) not null")
+    private String transactionId; // used to store the moyasar transaction id for later use
 
     @OneToOne(mappedBy = "contract")
     @JsonIgnore

@@ -21,7 +21,6 @@ public class PaymentRequest { // created by Abdullah Alwael
     private String cvc;
     private String month;
     private String year;
-    private Double amount;
     private String currency;
     private String description;
     private String callbackUrl;
