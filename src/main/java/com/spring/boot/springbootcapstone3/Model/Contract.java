@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Setter
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Contract { // created by Abdullah Alwael
+public class Contract {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,11 +28,11 @@ public class Contract { // created by Abdullah Alwael
 
     @NotNull(message = "startDate should not be empty")
     @Column(columnDefinition = "datetime not null")
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
     @NotNull(message = "endDate should not be empty")
     @Column(columnDefinition = "datetime not null")
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
     @OneToOne(mappedBy = "contract")
     @JsonIgnore

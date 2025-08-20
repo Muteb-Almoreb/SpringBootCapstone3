@@ -4,12 +4,14 @@ package com.spring.boot.springbootcapstone3.Service;
 import com.spring.boot.springbootcapstone3.API.ApiException;
 import com.spring.boot.springbootcapstone3.DTO.OfferDTO;
 import com.spring.boot.springbootcapstone3.Model.*;
+import com.spring.boot.springbootcapstone3.Repository.ContractRepository;
 import com.spring.boot.springbootcapstone3.Repository.OfferRepository;
 import com.spring.boot.springbootcapstone3.Repository.ServiceRequestRepository;
 import com.spring.boot.springbootcapstone3.Repository.VendorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,6 +21,7 @@ public class OfferService {
     private final OfferRepository offerRepository;
     private final ServiceRequestRepository serviceRequestRepository;
     private final VendorRepository vendorRepository;
+    private final ContractRepository contractRepository;
 
     public List<Offer> getAll() {
         return offerRepository.findAll();
@@ -138,7 +141,7 @@ public class OfferService {
         if (!"PENDING".equalsIgnoreCase(offer.getStatus())) {
             throw new ApiException("Only PENDING offers can be accepted");
         }
-        if (offerRepository.countByServiceRequestIdAndStatus(sr.getId(), "APPROVED") > 0) {
+        if (offerRepository.countByServiceRequest_IdAndStatus(sr.getId(), "APPROVED") > 0) {
             throw new ApiException("Another offer is already approved for this ServiceRequest");
         }
         if (sr.getContract() != null || offer.getContract() != null) {
@@ -155,12 +158,11 @@ public class OfferService {
             }
         }
 
-        // 3) إنشاء عقد مبسّط
         Contract c = new Contract();
         c.setServiceRequest(sr);
         c.setPrice(offer.getPrice() != null ? offer.getPrice() : 0.0);
 
-        LocalDateTime now = LocalDateTime.now();
+        LocalDate now = LocalDate.now();
         c.setStartDate(now);
         c.setEndDate(now.plusMonths(12));
 
@@ -169,5 +171,49 @@ public class OfferService {
 
         return offer.getContract();
     }
+
+
+    public Contract createContractIfApproved(Integer offerId,
+                                             LocalDate startDate,
+                                             LocalDate endDate) {
+
+        Offer offer = offerRepository.findOfferById(offerId);
+        if (offer == null) {
+            throw new ApiException("Offer not found");
+        }
+
+        if (!"APPROVED".equalsIgnoreCase(offer.getStatus())) {
+            throw new ApiException("Offer must be APPROVED before creating a contract");
+        }
+
+        ServiceRequest sr = offer.getServiceRequest();
+        if (sr == null) {
+            throw new ApiException("Offer is not linked to a ServiceRequest");
+        }
+
+        if (contractRepository.existsByServiceRequest_Id(sr.getId())) {
+            throw new ApiException("A contract already exists for this ServiceRequest");
+        }
+        if (offer.getContract() != null) {
+            throw new ApiException("This offer already has a contract");
+        }
+
+        LocalDate start = (startDate != null) ? startDate : LocalDate.now();
+        LocalDate end   = (endDate   != null) ? endDate   : start.plusMonths(12);
+
+        Contract c = new Contract();
+        c.setPrice(offer.getPrice() != null ? offer.getPrice() : 0.0);
+        c.setStartDate(start);
+        c.setEndDate(end);
+        c.setServiceRequest(sr);
+
+        Contract saved = contractRepository.save(c);
+
+        offer.setContract(saved);
+        offerRepository.save(offer);
+
+        return saved;
+    }
 }
+
 
