@@ -51,10 +51,6 @@ public class Vendor {
             message = "Status must be PENDING, APPROVED, REJECTED, or SUSPENDED")
     private String approvalStatus = "PENDING";
 
-    @OneToMany(cascade = CascadeType.ALL , mappedBy = "vendor")
-    private Set<Contract> contracts;
-
-
 
     @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL)
     @JsonIgnore

@@ -3,17 +3,14 @@ package com.spring.boot.springbootcapstone3.Service;
 
 import com.spring.boot.springbootcapstone3.API.ApiException;
 import com.spring.boot.springbootcapstone3.DTO.OfferDTO;
-import com.spring.boot.springbootcapstone3.Model.Offer;
-import com.spring.boot.springbootcapstone3.Model.Organization;
-import com.spring.boot.springbootcapstone3.Model.ServiceRequest;
-import com.spring.boot.springbootcapstone3.Model.Vendor;
+import com.spring.boot.springbootcapstone3.Model.*;
 import com.spring.boot.springbootcapstone3.Repository.OfferRepository;
-import com.spring.boot.springbootcapstone3.Repository.OrganizationRepository;
 import com.spring.boot.springbootcapstone3.Repository.ServiceRequestRepository;
 import com.spring.boot.springbootcapstone3.Repository.VendorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -93,7 +90,7 @@ public class OfferService {
         if (old == null) throw new ApiException("Offer id not found");
 
 
-         if (!"PENDING".equalsIgnoreCase(old.getStatus())) {
+        if (!"PENDING".equalsIgnoreCase(old.getStatus())) {
              throw new ApiException("Cannot update non-PENDING offer");
          }
 
@@ -129,6 +126,48 @@ public class OfferService {
             throw new ApiException("Cannot delete an accepted offer");
 
         offerRepository.delete(offer);
+    }
+
+    public Contract acceptById(Integer offerId) {
+        Offer offer = offerRepository.findById(offerId)
+                .orElseThrow(() -> new ApiException("Offer not found"));
+
+        ServiceRequest sr = offer.getServiceRequest();
+        if (sr == null) throw new ApiException("Offer not linked to a ServiceRequest");
+
+        if (!"PENDING".equalsIgnoreCase(offer.getStatus())) {
+            throw new ApiException("Only PENDING offers can be accepted");
+        }
+        if (offerRepository.countByServiceRequestIdAndStatus(sr.getId(), "APPROVED") > 0) {
+            throw new ApiException("Another offer is already approved for this ServiceRequest");
+        }
+        if (sr.getContract() != null || offer.getContract() != null) {
+            throw new ApiException("A contract already exists for this request/offer");
+        }
+
+        offer.setStatus("APPROVED");
+        offerRepository.save(offer);
+
+        for (Offer o : offerRepository.findAllByServiceRequest_Id(sr.getId())) {
+            if (!o.getId().equals(offer.getId()) && !"REJECTED".equalsIgnoreCase(o.getStatus())) {
+                o.setStatus("REJECTED");
+                offerRepository.save(o);
+            }
+        }
+
+        // 3) إنشاء عقد مبسّط
+        Contract c = new Contract();
+        c.setServiceRequest(sr);
+        c.setPrice(offer.getPrice() != null ? offer.getPrice() : 0.0);
+
+        LocalDateTime now = LocalDateTime.now();
+        c.setStartDate(now);
+        c.setEndDate(now.plusMonths(12));
+
+        offer.setContract(c);
+        offerRepository.save(offer);
+
+        return offer.getContract();
     }
 }
 

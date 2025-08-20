@@ -12,6 +12,8 @@ public interface OfferRepository extends JpaRepository <Offer , Integer> {
     Offer findOfferById(Integer id);
     List<Offer> findAllByServiceRequest_Id(Integer serviceRequestId);
 
+    Integer countByServiceRequestIdAndStatus(Integer serviceRequestId, String status);
+
     List<Offer> findAllByVendor_Id(Integer vendorId);
 
     Boolean existsByServiceRequest_IdAndVendor_Id(Integer serviceRequestId, Integer vendorId);

@@ -1,3 +1,4 @@
+/*
 package com.spring.boot.springbootcapstone3.Service;
 
 import com.spring.boot.springbootcapstone3.API.ApiException;
@@ -71,7 +72,8 @@ public class InvoiceService { // Created by Abdullah Alwael
             throw new ApiException("Error, contract not found");
         }
 
-        contract.setInvoice(null); // to remove the relationship
+//        contract.setInvoice(null); // to remove the relationship
         invoiceRepository.delete(oldInvoice);
     }
 }
+*/

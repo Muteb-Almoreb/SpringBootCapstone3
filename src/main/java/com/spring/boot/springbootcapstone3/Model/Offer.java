@@ -1,6 +1,7 @@
 package com.spring.boot.springbootcapstone3.Model;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -42,24 +43,34 @@ public class Offer {
 
 
     @Pattern(
-            regexp = "(?i)^(pending|approved|rejected|WITHDRAWN)$",
-            message = "Status must be one of: Pending, Approved, Paid, Released, Rejected, Attended"
+            regexp = "(?i)^(PENDING|APPROVED|REJECTED|WITHDRAWN)$",
+            message = "Status must be one of: PENDING, APPROVED, REJECTED, WITHDRAWN"
     )
     @Column(columnDefinition = "varchar(20) not null")
-    private String status;
+    private String status = "PENDING";
 
 
-    @Column(columnDefinition = "timestamp default current_timestamp")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @Column(insertable = false,
+            updatable = false,
+            columnDefinition = "datetime not null default current_timestamp")
     private LocalDateTime createdAt;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "contract_id", unique = true)
+    @JsonIgnore
+    private Contract contract;
 
-    @ManyToOne
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "service_request_id", nullable = false)
     @JsonIgnore
     private ServiceRequest serviceRequest;
 
-    @ManyToOne
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "vendor_id", nullable = false)
     @JsonIgnore
     private Vendor vendor;
+
 
 
 

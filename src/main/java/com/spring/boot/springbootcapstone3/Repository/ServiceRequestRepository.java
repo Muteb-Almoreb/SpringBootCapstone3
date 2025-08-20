@@ -11,4 +11,5 @@ public interface ServiceRequestRepository extends JpaRepository <ServiceRequest 
 
     ServiceRequest findServiceRequestById(Integer id);
     List<ServiceRequest> findAllByOrganization_Id(Integer organizationId);
+
 }
