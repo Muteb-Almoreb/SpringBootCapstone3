@@ -28,7 +28,7 @@ public class PaymentService { // created by Abdullah Alwael
         }
 
         if(contract.getStatus().equals("paid")){
-            throw new ApiException("Contract not found");
+            throw new ApiException("Error, the contract was already paid!");
         }
 
         String callBackUrl = "http://localhost:8080/api/v1/payment/callback/"+contract.getId();
