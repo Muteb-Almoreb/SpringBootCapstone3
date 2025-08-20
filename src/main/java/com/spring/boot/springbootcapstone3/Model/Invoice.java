@@ -1,3 +1,4 @@
+/*
 package com.spring.boot.springbootcapstone3.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -55,3 +56,4 @@ public class Invoice { // Created by Abdullah Alwael
     private Contract contract;
 
 }
+*/

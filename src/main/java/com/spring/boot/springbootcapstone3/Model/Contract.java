@@ -2,7 +2,6 @@ package com.spring.boot.springbootcapstone3.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,7 +23,7 @@ public class Contract { // created by Abdullah Alwael
 
     @NotNull(message = "totalPrice should not be empty")
     @Column(columnDefinition = "double not null")
-    private double totalPrice;
+    private double price;
 
     @NotNull(message = "startDate should not be empty")
     @Column(columnDefinition = "datetime not null")
@@ -34,41 +33,13 @@ public class Contract { // created by Abdullah Alwael
     @Column(columnDefinition = "datetime not null")
     private LocalDateTime endDate;
 
-    @NotEmpty(message = "careScope should not be empty")
-    @Column(columnDefinition = "varchar(30) not null")
-    private String careScope; // JSON?
-
-    // should be calculated by the system?
-    @Column(columnDefinition = "varchar(30) not null")
-    private String status;
-
-    @NotEmpty(message = "contractLocationName should not be empty")
-    @Column(columnDefinition = "varchar(100) not null")
-    private String contractLocationName;
-
-    @NotEmpty(message = "contractLocationName should not be empty")
-    @Column(columnDefinition = "varchar(200) not null")
-    private String contractLocationUrl;
-
-    @NotEmpty(message = "contractItemsJson should not be empty")
-    @Column(columnDefinition = "varchar(200) not null")
-    private String contractItemsJson;// JSON?
-
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "contract")
-    @PrimaryKeyJoinColumn
-    private Invoice invoice;
-
-    @OneToOne
+    @OneToOne(mappedBy = "contract")
     @JsonIgnore
-    @MapsId
+    private Offer offer;
+
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
+//    @JoinColumn(nullable = false, unique = true)
+    @JsonIgnore
     private ServiceRequest serviceRequest;
-
-    @ManyToOne
-    @JsonIgnore
-    private Organization organization;
-
-    @ManyToOne
-    @JsonIgnore
-    private Vendor vendor;
 
 }

@@ -57,7 +57,6 @@ public class ServiceRequestService {
         old.setDescription(newReq.getDescription());
         old.setLocation(newReq.getLocation());
         old.setLocationUrl(newReq.getLocationUrl());
-        // لا نلمس status الآن (مؤجل للّوجيك لاحقًا)
 
         serviceRequestRepository.save(old);
     }
@@ -68,6 +67,8 @@ public class ServiceRequestService {
             throw new ApiException("Service request id not found");
         serviceRequestRepository.delete(sr);
     }
+
+
 
 
 }
