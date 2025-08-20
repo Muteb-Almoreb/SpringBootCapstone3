@@ -1,3 +1,4 @@
+/*
 package com.spring.boot.springbootcapstone3.DTO;
 
 import jakarta.validation.constraints.NotEmpty;
@@ -30,3 +31,4 @@ public class InvoiceDTOIn {
     @NotNull(message = "contractId should not be empty")
     private Integer contractId;
 }
+*/

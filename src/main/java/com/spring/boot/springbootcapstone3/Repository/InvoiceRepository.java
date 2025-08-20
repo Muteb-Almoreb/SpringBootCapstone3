@@ -1,3 +1,4 @@
+/*
 package com.spring.boot.springbootcapstone3.Repository;
 
 import com.spring.boot.springbootcapstone3.Model.Invoice;
@@ -8,3 +9,4 @@ import org.springframework.stereotype.Repository;
 public interface InvoiceRepository extends JpaRepository<Invoice, Integer> {
     Invoice findInvoiceById(Integer id);
 }
+*/
