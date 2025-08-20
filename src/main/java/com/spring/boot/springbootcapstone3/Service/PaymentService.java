@@ -21,14 +21,14 @@ public class PaymentService {
 
         String requestBody = String.format(
                 "source[type]=card&source[name]=%s&source[number]=%s&source[cvc]=%s&" +
-                        "source[month]=%s&source[year]=%s&amount=%f&currency=%s&" +
+                        "source[month]=%s&source[year]=%s&amount=%d&currency=%s&" +
                         "callback_url=%s",
                 paymentRequest.getName(),
                 paymentRequest.getNumber(),
                 paymentRequest.getCvc(),
                 paymentRequest.getMonth(),
                 paymentRequest.getYear(),
-                paymentRequest.getAmount(),
+                (int) (paymentRequest.getAmount()*100), // must convert to the smallest currency unit?
                 paymentRequest.getCurrency(),
                 callBackUrl
         );
