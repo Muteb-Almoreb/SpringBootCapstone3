@@ -7,8 +7,12 @@ import com.spring.boot.springbootcapstone3.Model.Contract;
 import com.spring.boot.springbootcapstone3.Service.OfferService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/v1/offers")
@@ -63,4 +67,18 @@ public class OfferController {
     public Contract accept(@PathVariable Integer offerId) {
         return offerService.acceptById(offerId);
     }
+
+    @PostMapping("/{offerId}/contract")
+    public ResponseEntity<Contract> createContractForApprovedOffer(
+            @PathVariable Integer offerId,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate startDate,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate endDate
+    ) {
+        Contract created = offerService.createContractIfApproved(offerId, startDate, endDate);
+        return ResponseEntity.ok(created);
+    }
+
+
 }

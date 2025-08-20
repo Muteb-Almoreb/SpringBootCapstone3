@@ -9,9 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OfferDTO {
-    private Integer id;
-    private String title;
-    private String description;
-    private Double price;
+public class ContractPrintResponse {
+    private ContractSummaryDTO contract;
+    private PartiesDTO parties;
+    private ServiceRequestSummaryDTO serviceRequest;
+    private OfferDTO offer;
 }

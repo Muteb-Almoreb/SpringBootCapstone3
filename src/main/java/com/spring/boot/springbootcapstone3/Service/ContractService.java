@@ -1,88 +1,130 @@
-//package com.spring.boot.springbootcapstone3.Service;
-//
-//import com.spring.boot.springbootcapstone3.API.ApiException;
-//import com.spring.boot.springbootcapstone3.DTO.ContractDTOIn;
-//import com.spring.boot.springbootcapstone3.Model.Contract;
-//import com.spring.boot.springbootcapstone3.Model.Organization;
-//import com.spring.boot.springbootcapstone3.Model.ServiceRequest;
-//import com.spring.boot.springbootcapstone3.Model.Vendor;
-//import com.spring.boot.springbootcapstone3.Repository.ContractRepository;
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.stereotype.Service;
-//
-//import java.util.List;
-//
-//@Service
-//@RequiredArgsConstructor
-//public class ContractService { // Created by Abdullah Alwael
-//    private final ContractRepository contractRepository;
-//    private final ServiceRequestService serviceRequestService;
-//    private final OrganizationService organizationService;
-//    private final VendorService vendorService;
-//
-//    public void addContract(ContractDTOIn contractDTOIn){
-//        ServiceRequest serviceRequest = serviceRequestService.getById(contractDTOIn.getServiceRequestId());
-//        Organization organization = organizationService.getById(contractDTOIn.getOrganizationId());
-//        Vendor vendor = vendorService.getVendor(contractDTOIn.getVendorId());
-//        // invoice is created later?
-//
-//        if (serviceRequest == null){
-//            throw new ApiException("Error, serviceRequest not found");
-//        }
-//
-//        if (organization == null){
-//            throw new ApiException("Error, organization not found");
-//        }
-//
-//        if (vendor == null){
-//            throw new ApiException("Error, vendor not found");
-//        }
-//
-//        Contract contract = new Contract(null, contractDTOIn.getTotalPrice(), contractDTOIn.getStartDate()
-//                , contractDTOIn.getEndDate(), contractDTOIn.getCareScope(), "INITIAL_STATUS"
-//              update status to mach system flow
-//                ,contractDTOIn.getContractLocationName(), contractDTOIn.getContractLocationUrl()
-//                , contractDTOIn.getContractItemsJson(), null, serviceRequest, organization, vendor);
-//        contractRepository.save(contract);
-//    }
-//
-//    public List<Contract> getContracts(){
-//        return contractRepository.findAll();
-//    }
-//
-//    public Contract getContract(Integer contractId){
-//        return contractRepository.findContractById(contractId);
-//    }
-//
-//    public void updateContract(ContractDTOIn contractDTOIn){
-//        Contract oldContract = getContract(contractDTOIn.getServiceRequestId());
-//
-//        if (oldContract == null){
-//            throw new ApiException("Error, contract not found");
-//        }
-//
-//
-//        oldContract.setContractLocationName(contractDTOIn.getContractLocationName());
-//        oldContract.setContractLocationUrl(contractDTOIn.getContractLocationUrl());
-//        oldContract.setContractItemsJson(contractDTOIn.getContractItemsJson());
-//        oldContract.setCareScope(contractDTOIn.getCareScope());
-//        oldContract.setStartDate(contractDTOIn.getStartDate());
-//        oldContract.setEndDate(contractDTOIn.getEndDate());
-//       oldContract.setStatus(contractDTOIn.getStatus());
-//        oldContract.setTotalPrice(contractDTOIn.getTotalPrice());
-//
-//        contractRepository.save(oldContract);
-//    }
-//
-//    public void deleteContract(Integer contractId){
-//        Contract oldContract = getContract(contractId);
-//
-//        if (oldContract == null){
-//            throw new ApiException("Error, contract not found");
-//        }
-//
-//        oldContract.setOrganization(null);
-//        oldContract.setVendor(null);
-//        contractRepository.delete(oldContract);
-//    }
-//}
+package com.spring.boot.springbootcapstone3.Service;
+
+import com.spring.boot.springbootcapstone3.DTO.*;
+import com.spring.boot.springbootcapstone3.Model.*;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import com.spring.boot.springbootcapstone3.API.ApiException;
+import com.spring.boot.springbootcapstone3.Repository.ContractRepository;
+import com.spring.boot.springbootcapstone3.Repository.OfferRepository;
+
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+@Service
+@RequiredArgsConstructor
+public class ContractService {
+
+    private final ContractRepository contractRepository;
+    private final OfferRepository offerRepository;
+
+    public Contract getById(Integer id) {
+        Contract c = contractRepository.findContractById(id);
+        if (c == null) throw new ApiException("Contract not found");
+        return c;
+    }
+
+    public Contract getByServiceRequestId(Integer srId) {
+        Contract c = contractRepository.findByServiceRequest_Id(srId);
+        if (c == null) throw new ApiException("No contract for this ServiceRequest");
+        return c;
+    }
+
+    public Contract getByOfferId(Integer offerId) {
+        Offer o = offerRepository.findOfferById(offerId);
+        if (o == null) throw new ApiException("Offer not found");
+        Contract c = o.getContract();
+        if (c == null) throw new ApiException("No contract linked to this offer");
+        return c;
+    }
+
+    public Contract updateBasicFields(Integer id, Double price, LocalDate startDate, LocalDate endDate) {
+        Contract c = contractRepository.findContractById(id);
+        if (c == null) throw new ApiException("Contract not found");
+
+        if (price != null) {
+            if (price < 0) throw new ApiException("Price cannot be negative");
+            c.setPrice(price);
+        }
+        if (startDate != null) c.setStartDate(startDate);
+        if (endDate != null)   c.setEndDate(endDate);
+
+        if (c.getStartDate() != null && c.getEndDate() != null && c.getEndDate().isBefore(c.getStartDate())) {
+            throw new ApiException("endDate must be after startDate");
+        }
+
+        return contractRepository.save(c);
+    }
+
+    public Contract getContractGraph(Integer id) {
+        Contract c = contractRepository.fetchGraphById(id);
+        if (c == null) throw new ApiException("Contract not found");
+        return c;
+    }
+
+
+    public ContractPrintResponse buildPrintView(Integer id) {
+        Contract c = getContractGraph(id);
+
+        // contract
+        ContractSummaryDTO contractDto = new ContractSummaryDTO(
+                c.getId(),
+                c.getPrice(),
+                c.getStartDate(),
+                c.getEndDate()
+
+        );
+
+        // serviceRequest + org
+        ServiceRequest sr = c.getServiceRequest();
+        Organization org = (sr != null) ? sr.getOrganization() : null;
+
+        ServiceRequestSummaryDTO srDto = (sr == null) ? null :
+                new ServiceRequestSummaryDTO(
+                        sr.getId(),
+                        sr.getTitle(),
+                        sr.getLocation(),
+                        sr.getLocationUrl()
+                );
+
+        OrganizationSummaryDTO orgDto = (org == null) ? null :
+                new OrganizationSummaryDTO(
+                        org.getId(),
+                        org.getName(),
+                        org.getEmail(),
+                        org.getPhone()
+                );
+
+        // offer + vendor
+        Offer offer = c.getOffer();
+        Vendor vendor = (offer != null) ? offer.getVendor() : null;
+
+        OfferDTO offerDto = (offer == null) ? null :
+                new OfferDTO(
+                        offer.getId(),
+                        offer.getTitle(),
+                        offer.getDescription(),
+                        offer.getPrice()
+                );
+
+        VendorSummaryDTO vendorDto = (vendor == null) ? null :
+                new VendorSummaryDTO(
+                        vendor.getId(),
+                        vendor.getName(),
+                        vendor.getEmail(),
+                        vendor.getPhone()
+                );
+
+        PartiesDTO parties = new PartiesDTO(orgDto, vendorDto);
+
+
+        return new ContractPrintResponse(
+                contractDto,
+                parties,
+                srDto,
+                offerDto
+        );
+    }
+
+}
