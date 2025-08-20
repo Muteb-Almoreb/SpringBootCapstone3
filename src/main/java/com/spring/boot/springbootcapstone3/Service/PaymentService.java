@@ -1,6 +1,9 @@
 package com.spring.boot.springbootcapstone3.Service;
 
+import com.spring.boot.springbootcapstone3.API.ApiException;
+import com.spring.boot.springbootcapstone3.Model.Contract;
 import com.spring.boot.springbootcapstone3.Model.PaymentRequest;
+import com.spring.boot.springbootcapstone3.Repository.ContractRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -14,10 +17,17 @@ public class PaymentService { // created by Abdullah Alwael
     private String apiKey;
 
     private static final String MOYASAR_API_URL = "https://api.moyasar.com/v1/payments/";
+    private final ContractRepository contractRepository;
 
-    public ResponseEntity<String> processPayment(PaymentRequest paymentRequest) {
+    public ResponseEntity<String> processPayment(Integer contractId, PaymentRequest paymentRequest) {
 
-        String callBackUrl = "http://localhost:8080/api/v1/payment/callback";
+        Contract contract = contractRepository.findContractById(contractId);
+
+        if (contract == null){
+            throw new ApiException("Contract not found");
+        }
+
+        String callBackUrl = "http://localhost:8080/api/v1/payment/callback/"+contract.getId();
 
         String requestBody = String.format(
                 "source[type]=card&source[name]=%s&source[number]=%s&source[cvc]=%s&" +
@@ -28,7 +38,9 @@ public class PaymentService { // created by Abdullah Alwael
                 paymentRequest.getCvc(),
                 paymentRequest.getMonth(),
                 paymentRequest.getYear(),
-                (int) (paymentRequest.getAmount()*100), // must convert to the smallest currency unit, to add the halala
+                (int) ((contract.getPrice()+contract.getPrice()*0.2)*100),
+                // must convert to the smallest currency unit, to add the halala
+                // and add the service commission of 20%
                 paymentRequest.getCurrency(),
                 callBackUrl
         );
@@ -67,5 +79,19 @@ public class PaymentService { // created by Abdullah Alwael
 
         // return the response:
         return response.getBody();
+    }
+
+    public void updateStatus(Integer contractId, String transaction_id, String status){
+
+        Contract contract = contractRepository.findContractById(contractId);
+
+        if (contract == null){
+            throw new ApiException("Contract not found");
+        }
+
+        contract.setStatus(status);
+        contract.setTransactionId(transaction_id);
+
+        contractRepository.save(contract);
     }
 }
