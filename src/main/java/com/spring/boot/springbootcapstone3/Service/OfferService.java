@@ -4,10 +4,7 @@ package com.spring.boot.springbootcapstone3.Service;
 import com.spring.boot.springbootcapstone3.API.ApiException;
 import com.spring.boot.springbootcapstone3.DTO.OfferDTO;
 import com.spring.boot.springbootcapstone3.Model.*;
-import com.spring.boot.springbootcapstone3.Repository.ContractRepository;
-import com.spring.boot.springbootcapstone3.Repository.OfferRepository;
-import com.spring.boot.springbootcapstone3.Repository.ServiceRequestRepository;
-import com.spring.boot.springbootcapstone3.Repository.VendorRepository;
+import com.spring.boot.springbootcapstone3.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +19,8 @@ public class OfferService {
     private final ServiceRequestRepository serviceRequestRepository;
     private final VendorRepository vendorRepository;
     private final ContractRepository contractRepository;
+
+    private final OrganizationRepository organizationRepository;
 
     public List<Offer> getAll() {
         return offerRepository.findAll();
@@ -60,19 +59,19 @@ public class OfferService {
 //        offerRepository.save(offer);
 //    }
 
-
+    // OfferService.java (أضف/أعد هذه الدالة)
     public void add(Integer serviceRequestId, Integer vendorId, OfferDTO dto) {
         ServiceRequest sr = serviceRequestRepository.findServiceRequestById(serviceRequestId);
-        if (sr == null)
-            throw new ApiException("Service request id not found");
+        if (sr == null) throw new ApiException("Service request id not found");
+
+        if (!"OPEN".equalsIgnoreCase(sr.getStatus()))
+            throw new ApiException("This service request is closed; cannot submit offers");
 
         Vendor vendor = vendorRepository.findVendorById(vendorId);
-        if (vendor == null)
-            throw new ApiException("Vendor id not found");
+        if (vendor == null) throw new ApiException("Vendor id not found");
 
-        if (offerRepository.existsByServiceRequest_IdAndVendor_Id(serviceRequestId, vendorId)) {
+        if (offerRepository.existsByServiceRequest_IdAndVendor_Id(serviceRequestId, vendorId))
             throw new ApiException("Vendor already submitted an offer for this service request");
-        }
 
         Offer offer = new Offer();
         offer.setServiceRequest(sr);
@@ -80,11 +79,11 @@ public class OfferService {
         offer.setPrice(dto.getPrice());
         offer.setTitle(dto.getTitle());
         offer.setDescription(dto.getDescription());
-
         offer.setStatus("PENDING");
 
         offerRepository.save(offer);
     }
+
 
 
     //update with DTO
@@ -138,26 +137,32 @@ public class OfferService {
         ServiceRequest sr = offer.getServiceRequest();
         if (sr == null) throw new ApiException("Offer not linked to a ServiceRequest");
 
-        if (!"PENDING".equalsIgnoreCase(offer.getStatus())) {
+        if (!"PENDING".equalsIgnoreCase(offer.getStatus()))
             throw new ApiException("Only PENDING offers can be accepted");
-        }
-        if (offerRepository.countByServiceRequest_IdAndStatus(sr.getId(), "APPROVED") > 0) {
-            throw new ApiException("Another offer is already approved for this ServiceRequest");
-        }
-        if (sr.getContract() != null || offer.getContract() != null) {
-            throw new ApiException("A contract already exists for this request/offer");
-        }
 
-        offer.setStatus("APPROVED");
+        if (offerRepository.countByServiceRequest_IdAndStatus(sr.getId(), "ACCEPTED") > 0)
+            throw new ApiException("Another offer is already accepted for this ServiceRequest");
+
+        if (sr.getContract() != null || offer.getContract() != null)
+            throw new ApiException("A contract already exists for this request/offer");
+
+        // 1) قبّل العرض
+        offer.setStatus("ACCEPTED");
         offerRepository.save(offer);
 
-        for (Offer o : offerRepository.findAllByServiceRequest_Id(sr.getId())) {
-            if (!o.getId().equals(offer.getId()) && !"REJECTED".equalsIgnoreCase(o.getStatus())) {
+        // 2) ارفض البقية (عدا WITHDRAWN)
+        for (Offer o : offerRepository.findAllByServiceRequest_IdAndStatusNot(sr.getId(), "ACCEPTED")) {
+            if (!"WITHDRAWN".equalsIgnoreCase(o.getStatus())) {
                 o.setStatus("REJECTED");
                 offerRepository.save(o);
             }
         }
 
+        // 3) اقفل الطلب
+        sr.setStatus("CLOSED");
+        serviceRequestRepository.save(sr);
+
+        // 4) أنشئ العقد (نفس منطقك)
         Contract c = new Contract();
         c.setServiceRequest(sr);
         c.setPrice(offer.getPrice() != null ? offer.getPrice() : 0.0);
@@ -166,37 +171,28 @@ public class OfferService {
         c.setStartDate(now);
         c.setEndDate(now.plusMonths(12));
 
-        offer.setContract(c);
+        offer.setContract(c); // بما أنك رابطها بـ contract_id على الـ Offer
         offerRepository.save(offer);
 
         return offer.getContract();
     }
 
 
-    public Contract createContractIfApproved(Integer offerId,
-                                             LocalDate startDate,
-                                             LocalDate endDate) {
-
+    public Contract createContractIfApproved(Integer offerId, LocalDate startDate, LocalDate endDate) {
         Offer offer = offerRepository.findOfferById(offerId);
-        if (offer == null) {
-            throw new ApiException("Offer not found");
-        }
+        if (offer == null) throw new ApiException("Offer not found");
 
-        if (!"APPROVED".equalsIgnoreCase(offer.getStatus())) {
-            throw new ApiException("Offer must be APPROVED before creating a contract");
-        }
+        if (!"ACCEPTED".equalsIgnoreCase(offer.getStatus()))
+            throw new ApiException("Offer must be ACCEPTED before creating a contract");
 
         ServiceRequest sr = offer.getServiceRequest();
-        if (sr == null) {
-            throw new ApiException("Offer is not linked to a ServiceRequest");
-        }
+        if (sr == null) throw new ApiException("Offer is not linked to a ServiceRequest");
 
-        if (contractRepository.existsByServiceRequest_Id(sr.getId())) {
+        if (contractRepository.existsByServiceRequest_Id(sr.getId()))
             throw new ApiException("A contract already exists for this ServiceRequest");
-        }
-        if (offer.getContract() != null) {
+
+        if (offer.getContract() != null)
             throw new ApiException("This offer already has a contract");
-        }
 
         LocalDate start = (startDate != null) ? startDate : LocalDate.now();
         LocalDate end   = (endDate   != null) ? endDate   : start.plusMonths(12);
@@ -214,6 +210,7 @@ public class OfferService {
 
         return saved;
     }
+
 }
 
 
