@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 @RequiredArgsConstructor
-public class PaymentService {
+public class PaymentService { // created by Abdullah Alwael
     @Value("${moyasar.api.key}")
     private String apiKey;
 
