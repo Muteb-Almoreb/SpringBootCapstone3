@@ -1,0 +1,179 @@
+### Add Service Request - Saudi Aramco - Landscape Maintenance
+POST http://localhost:8080/api/v1/requests/addServiceRequest/1
+Content-Type: application/json
+
+{
+  "title": "Landscape Maintenance for Aramco Campus",
+  "description": "Routine care for green spaces, including irrigation, pruning, and seasonal planting.",
+  "status": "OPEN",
+  "location": "Dhahran, Eastern Province, KSA",
+  "locationUrl": "https://maps.app.goo.gl/9P7Q8R9S0T"
+}
+
+### Add Service Request - SABIC - Tree Planting
+POST http://localhost:8080/api/v1/requests/addServiceRequest/2
+Content-Type: application/json
+
+{
+  "title": "New Tree Planting Project",
+  "description": "Planting 100 new palm trees around the corporate headquarters. Require ongoing care for 6 months.",
+  "status": "OPEN",
+  "location": "Jubail, Eastern Province, KSA",
+  "locationUrl": "https://maps.app.goo.gl/A1B2C3D4E5"
+}
+
+### Add Service Request - STC - Green Roof Installation
+POST http://localhost:8080/api/v1/requests/addServiceRequest/3
+Content-Type: application/json
+
+{
+  "title": "Green Roof Installation on New Building",
+  "description": "Install a green roof system on the new STC tower in Riyadh, including plants, soil, and drainage system.",
+  "status": "OPEN",
+  "location": "King Abdulaziz Rd, Riyadh, KSA",
+  "locationUrl": "https://maps.app.goo.gl/F6G7H8I9J0"
+}
+
+### Add Service Request - NEOM - Desert Landscape
+POST http://localhost:8080/api/v1/requests/addServiceRequest/4
+Content-Type: application/json
+
+{
+  "title": "Desert-adapted Landscape for Visitor Center",
+  "description": "Design and implement a sustainable, water-efficient landscape using native desert plants for the NEOM visitor center.",
+  "status": "OPEN",
+  "location": "NEOM City, Tabuk, KSA",
+  "locationUrl": "https://maps.app.goo.gl/K1L2M3N4O5"
+}
+
+### Add Service Request - Red Sea Global - Resort Landscaping
+POST http://localhost:8080/api/v1/requests/addServiceRequest/5
+Content-Type: application/json
+
+{
+  "title": "Resort Landscaping and Tree Nursery",
+  "description": "Landscaping for a new resort. Looking for a partner to supply and maintain local trees and plants.",
+  "status": "OPEN",
+  "location": "The Red Sea Project, Red Sea Coast, KSA",
+  "locationUrl": "https://maps.app.goo.gl/P6Q7R8S9T0"
+}
+
+### Add Service Request - Al-Faisaliah Group - Park Greening
+POST http://localhost:8080/api/v1/requests/addServiceRequest/6
+Content-Type: application/json
+
+{
+  "title": "Public Park Greening and Beautification",
+  "description": "A project to transform a public park with new trees, flowerbeds, and regular maintenance.",
+  "status": "OPEN",
+  "location": "Al Olaya, Riyadh, KSA",
+  "locationUrl": "https://maps.app.goo.gl/U1V2W3X4Y5"
+}
+
+### Add Service Request - Kingdom Holding - Office Garden Maintenance
+POST http://localhost:8080/api/v1/requests/addServiceRequest/7
+Content-Type: application/json
+
+{
+  "title": "Maintenance for Office Courtyard Garden",
+  "description": "Routine maintenance and pest control for the indoor and outdoor gardens at the headquarters.",
+  "status": "OPEN",
+  "location": "Al Takhassusi St, Riyadh, KSA",
+  "locationUrl": "https://maps.app.goo.gl/Z6A7B8C9D0"
+}
+
+### Add Service Request - Emaar - Residential Landscape
+POST http://localhost:8080/api/v1/requests/addServiceRequest/8
+Content-Type: application/json
+
+{
+  "title": "Residential Community Landscape",
+  "description": "Complete landscaping for a new residential compound, including hardscape and softscape.",
+  "status": "OPEN",
+  "location": "King Abdullah Economic City, KSA",
+  "locationUrl": "https://maps.app.goo.gl/E1F2G3H4I5"
+}
+
+### Add Service Request - Roshn - Community Landscaping Phase 2
+POST http://localhost:8080/api/v1/requests/addServiceRequest/9
+Content-Type: application/json
+
+{
+  "title": "Roshn Community Landscaping Phase 2",
+  "description": "Continuation of landscaping work for the second phase of a residential development. Focused on green corridors.",
+  "status": "OPEN",
+  "location": "Roshn Community, Riyadh, KSA",
+  "locationUrl": "https://maps.app.goo.gl/J6K7L8M9N0"
+}
+
+### Add Service Request - Jadwa Investment - Corporate Garden
+POST http://localhost:8080/api/v1/requests/addServiceRequest/10
+Content-Type: application/json
+
+{
+  "title": "Corporate Office Garden Maintenance Contract",
+  "description": "Long-term contract for the care of the corporate office's courtyard and interior plants.",
+  "status": "OPEN",
+  "location": "Al Malqa, Riyadh, KSA",
+  "locationUrl": "https://maps.app.goo.gl/O1P2Q3R4S5"
+}
+
+### Add Service Request - Almarai Company - Farm Landscaping
+POST http://localhost:8080/api/v1/requests/addServiceRequest/11
+Content-Type: application/json
+
+{
+  "title": "Farm Landscaping and Tree Planting",
+  "description": "Afforestation project around farm perimeters to act as a windbreak and improve aesthetics.",
+  "status": "OPEN",
+  "location": "Al-Kharj, Riyadh Province, KSA",
+  "locationUrl": "https://maps.app.goo.gl/T6U7V8W9X0"
+}
+
+### Add Service Request - Ma'aden - Mine Site Greening
+POST http://localhost:8080/api/v1/requests/addServiceRequest/12
+Content-Type: application/json
+
+{
+  "title": "Greening and Reclamation of Mine Sites",
+  "description": "Environmental project to plant native vegetation and reclaim land around mine sites.",
+  "status": "OPEN",
+  "location": "Ras Al-Khair, Eastern Province, KSA",
+  "locationUrl": "https://maps.app.goo.gl/Y1Z2A3B4C5"
+}
+
+### Add Service Request - Saudia - Airport Plant Maintenance
+POST http://localhost:8080/api/v1/requests/addServiceRequest/13
+Content-Type: application/json
+
+{
+  "title": "Airport Greenery Maintenance",
+  "description": "Maintenance of all plants and trees within King Abdulaziz International Airport.",
+  "status": "OPEN",
+  "location": "King Abdulaziz International Airport, Jeddah, KSA",
+  "locationUrl": "https://maps.app.goo.gl/D6E7F8G9H0"
+}
+
+### Add Service Request - Alwaleed Philanthropies - Public Garden
+POST http://localhost:8080/api/v1/requests/addServiceRequest/14
+Content-Type: application/json
+
+{
+  "title": "Urban Public Garden Project",
+  "description": "Establish a new public garden in a populated area to improve air quality and provide a green space.",
+  "status": "OPEN",
+  "location": "Olaya District, Riyadh, KSA",
+  "locationUrl": "https://maps.app.goo.gl/I1J2K3L4M5"
+}
+
+### Add Service Request - Mobily - Data Center Landscaping
+POST http://localhost:8080/api/v1/requests/addServiceRequest/15
+Content-Type: application/json
+
+{
+  "title": "Data Center Campus Landscaping",
+  "description": "Landscaping and tree planting around the new data center campus for a professional and green environment.",
+  "status": "OPEN",
+  "location": "Al-Malaz, Riyadh, KSA",
+  "locationUrl": "https://maps.app.goo.gl/N6O7P8Q9R0"
+}
