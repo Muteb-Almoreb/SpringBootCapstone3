@@ -1,6 +1,5 @@
 package com.spring.boot.springbootcapstone3.Controller;
 
-import com.spring.boot.springbootcapstone3.API.ApiException;
 import com.spring.boot.springbootcapstone3.API.ApiResponse;
 import com.spring.boot.springbootcapstone3.Model.Organization;
 import com.spring.boot.springbootcapstone3.Service.OrganizationService;

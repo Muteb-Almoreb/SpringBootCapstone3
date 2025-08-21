@@ -1,18 +1,14 @@
 package com.spring.boot.springbootcapstone3.Controller;
 
-import com.spring.boot.springbootcapstone3.API.ApiResponse;
 import com.spring.boot.springbootcapstone3.DTO.ContractPrintResponse;
 import com.spring.boot.springbootcapstone3.Model.Contract;
 import com.spring.boot.springbootcapstone3.Service.ContractService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/v1/contract")
@@ -50,5 +46,12 @@ public class ContractController {
     @GetMapping("/{id}/print")
     public ResponseEntity<ContractPrintResponse> print(@PathVariable Integer id) {
         return ResponseEntity.ok(contractService.buildPrintView(id));
+    }
+
+    @GetMapping("/filter/date-between/{startDate}/{endDate}/{vendorId}")
+    public ResponseEntity<?> getContractsBetweenDates(@PathVariable LocalDate startDate,
+                                                      @PathVariable LocalDate endDate,
+                                                      @PathVariable Integer vendorId){
+        return ResponseEntity.ok(contractService.getContractsBetweenDates(startDate, endDate, vendorId));
     }
 }
