@@ -12,7 +12,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ContractSummaryDTO {
-    private Integer id;
     private double price;
     private LocalDate startDate;
     private LocalDate endDate;

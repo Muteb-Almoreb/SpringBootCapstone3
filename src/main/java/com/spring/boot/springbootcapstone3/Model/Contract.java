@@ -36,7 +36,7 @@ public class Contract {
     @Column(columnDefinition = "varchar(20) not null")
     private String status = "UNPAID";
 
-    @Column(columnDefinition = "varchar(255) not null")
+    @Column(columnDefinition = "varchar(255)")
     private String transactionId; // used to store the moyasar transaction id for later use
 
     @OneToOne(mappedBy = "contract")
