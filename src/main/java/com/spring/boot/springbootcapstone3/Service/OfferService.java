@@ -57,7 +57,6 @@ public class OfferService {
 //        offerRepository.save(offer);
 //    }
 
-    // OfferService.java (أضف/أعد هذه الدالة)
     public void add(Integer serviceRequestId, Integer vendorId, OfferDTO dto) {
         ServiceRequest sr = serviceRequestRepository.findServiceRequestById(serviceRequestId);
         if (sr == null) throw new ApiException("Service request id not found");
@@ -65,8 +64,15 @@ public class OfferService {
         if (!"OPEN".equalsIgnoreCase(sr.getStatus()))
             throw new ApiException("This service request is closed; cannot submit offers");
 
+
+
         Vendor vendor = vendorRepository.findVendorById(vendorId);
         if (vendor == null) throw new ApiException("Vendor id not found");
+
+        if (vendor.getApprovalStatus() == null || !"APPROVED".equalsIgnoreCase(vendor.getApprovalStatus())) {
+            throw new ApiException("Vendor must be APPROVED to submit an offer");
+        }
+
 
         if (offerRepository.existsByServiceRequest_IdAndVendor_Id(serviceRequestId, vendorId))
             throw new ApiException("Vendor already submitted an offer for this service request");
@@ -99,22 +105,6 @@ public class OfferService {
         old.setDescription(dto.getDescription());
         offerRepository.save(old);
     }
-
-
-
-
-    //update Without DTO
-
-//    public void update(Integer id, Offer newOffer) {
-//        Offer old = offerRepository.findOfferById(id);
-//        if (old == null) throw new ApiException("Offer id not found");
-//
-//        old.setTitle(newOffer.getTitle());
-//        old.setDescription(newOffer.getDescription());
-//        old.setPrice(newOffer.getPrice());
-//        // status مؤجّل
-//        offerRepository.save(old);
-//    }
 
 
     public void delete(Integer id) {

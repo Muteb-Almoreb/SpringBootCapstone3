@@ -69,7 +69,6 @@ public class ContractService {
 
         // contract
         ContractSummaryDTO contractDto = new ContractSummaryDTO(
-                c.getId(),
                 c.getPrice(),
                 c.getStartDate(),
                 c.getEndDate()
@@ -82,7 +81,6 @@ public class ContractService {
 
         ServiceRequestSummaryDTO srDto = (sr == null) ? null :
                 new ServiceRequestSummaryDTO(
-                        sr.getId(),
                         sr.getTitle(),
                         sr.getLocation(),
                         sr.getLocationUrl()
@@ -90,7 +88,6 @@ public class ContractService {
 
         OrganizationSummaryDTO orgDto = (org == null) ? null :
                 new OrganizationSummaryDTO(
-                        org.getId(),
                         org.getName(),
                         org.getEmail(),
                         org.getPhone()
@@ -102,16 +99,13 @@ public class ContractService {
 
         OfferDTO offerDto = (offer == null) ? null :
                 new OfferDTO(
-                        offer.getId(),
-                        offer.getPrice() ,
                         offer.getTitle(),
-                        offer.getDescription()
-
+                        offer.getDescription(),
+                        offer.getPrice()
                 );
 
         VendorSummaryDTO vendorDto = (vendor == null) ? null :
                 new VendorSummaryDTO(
-                        vendor.getId(),
                         vendor.getName(),
                         vendor.getEmail(),
                         vendor.getPhone()
