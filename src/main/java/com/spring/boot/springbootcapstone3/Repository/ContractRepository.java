@@ -4,6 +4,9 @@ import com.spring.boot.springbootcapstone3.Model.Contract;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
+import java.util.List;
+
 public interface ContractRepository extends JpaRepository<Contract, Integer> {
     boolean existsByServiceRequest_Id(Integer serviceRequestId);
     Contract findByServiceRequest_Id(Integer serviceRequestId);
@@ -18,4 +21,9 @@ public interface ContractRepository extends JpaRepository<Contract, Integer> {
            where c.id = :id
            """)
     Contract fetchGraphById(Integer id);
+
+    @Query("SELECT c FROM Contract c JOIN c.offer o WHERE o.vendor.id = ?1")
+    List<Contract> getContractsByStartDateAndEndDateBetweenAndVendorId(LocalDate startDate
+            , LocalDate endDate
+            , Integer vendorId);
 }

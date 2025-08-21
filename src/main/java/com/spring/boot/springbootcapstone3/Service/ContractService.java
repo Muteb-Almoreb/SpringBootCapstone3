@@ -10,7 +10,7 @@ import com.spring.boot.springbootcapstone3.Repository.OfferRepository;
 
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -126,6 +126,10 @@ public class ContractService {
                 srDto,
                 offerDto
         );
+    }
+
+    public List<Contract> getContractsBetweenDates(LocalDate startDate, LocalDate endDate, Integer vendorId){
+        return contractRepository.getContractsByStartDateAndEndDateBetweenAndVendorId(startDate, endDate, vendorId);
     }
 
 }
