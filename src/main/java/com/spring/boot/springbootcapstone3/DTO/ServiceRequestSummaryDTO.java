@@ -9,7 +9,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ServiceRequestSummaryDTO {
-    private Integer id;
     private String title;
     private String locationName;
     private String locationUrl;

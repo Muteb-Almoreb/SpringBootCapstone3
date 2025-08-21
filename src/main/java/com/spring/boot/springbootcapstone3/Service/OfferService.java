@@ -19,7 +19,6 @@ public class OfferService {
     private final VendorRepository vendorRepository;
     private final ContractRepository contractRepository;
 
-    private final OrganizationRepository organizationRepository;
 
     public List<Offer> getAll() {
         return offerRepository.findAll();
@@ -129,9 +128,9 @@ public class OfferService {
         offerRepository.delete(offer);
     }
 
-    public Contract acceptById(Integer offerId) {
-        Offer offer = offerRepository.findById(offerId)
-                .orElseThrow(() -> new ApiException("Offer not found"));
+    public Offer acceptById(Integer offerId) {
+        Offer offer = offerRepository.findOfferById(offerId);
+        if (offer == null) throw new ApiException("Offer not found");
 
         ServiceRequest sr = offer.getServiceRequest();
         if (sr == null) throw new ApiException("Offer not linked to a ServiceRequest");
@@ -145,11 +144,11 @@ public class OfferService {
         if (sr.getContract() != null || offer.getContract() != null)
             throw new ApiException("A contract already exists for this request/offer");
 
-        // 1) قبّل العرض
+        // 1) قبول العرض
         offer.setStatus("ACCEPTED");
         offerRepository.save(offer);
 
-        // 2) ارفض البقية (عدا WITHDRAWN)
+        // 2) رفض بقية العروض (عدا WITHDRAWN)
         for (Offer o : offerRepository.findAllByServiceRequest_IdAndStatusNot(sr.getId(), "ACCEPTED")) {
             if (!"WITHDRAWN".equalsIgnoreCase(o.getStatus())) {
                 o.setStatus("REJECTED");
@@ -157,27 +156,20 @@ public class OfferService {
             }
         }
 
-        // 3) اقفل الطلب
-        sr.setStatus("CLOSED");
-        serviceRequestRepository.save(sr);
+        // 3) إغلاق الطلب (إن كان عندك حقل status)
+        try {
+            sr.setStatus("CLOSED");
+            serviceRequestRepository.save(sr);
+        } catch (Exception ignore) { /* لو ما عندك status تجاهل */ }
 
-        // 4) أنشئ العقد (نفس منطقك)
-        Contract c = new Contract();
-        c.setServiceRequest(sr);
-        c.setPrice(offer.getPrice() != null ? offer.getPrice() : 0.0);
-
-        LocalDate now = LocalDate.now();
-        c.setStartDate(now);
-        c.setEndDate(now.plusMonths(12));
-
-        offer.setContract(c); // بما أنك رابطها بـ contract_id على الـ Offer
-        offerRepository.save(offer);
-
-        return offer.getContract();
+        return offer;
     }
 
 
-    public Contract createContractIfApproved(Integer offerId, LocalDate startDate, LocalDate endDate) {
+    public Contract createContractIfApproved(Integer offerId,
+                                             LocalDate startDate,
+                                             LocalDate endDate) {
+
         Offer offer = offerRepository.findOfferById(offerId);
         if (offer == null) throw new ApiException("Offer not found");
 
@@ -202,6 +194,7 @@ public class OfferService {
         c.setEndDate(end);
         c.setServiceRequest(sr);
 
+        // نحفظ العقد أولاً ثم نربطه بالعرض
         Contract saved = contractRepository.save(c);
 
         offer.setContract(saved);
@@ -209,7 +202,6 @@ public class OfferService {
 
         return saved;
     }
-
 }
 
 
