@@ -54,4 +54,14 @@ public class ContractController {
                                                       @PathVariable Integer vendorId){
         return ResponseEntity.ok(contractService.getContractsBetweenDates(startDate, endDate, vendorId));
     }
+
+    @GetMapping("/filter/overdue/{vendorId}")
+    public ResponseEntity<?> getOverdueContracts(@PathVariable Integer vendorId){
+        return ResponseEntity.ok(contractService.getOverdueContracts(vendorId));
+    }
+
+    @GetMapping("/filter/almost-expired/{vendorId}")
+    public ResponseEntity<?> getAlmostExpiredContracts(@PathVariable Integer vendorId){
+        return ResponseEntity.ok(contractService.getAlmostExpiredContracts(vendorId));
+    }
 }

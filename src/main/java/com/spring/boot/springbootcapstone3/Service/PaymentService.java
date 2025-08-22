@@ -27,8 +27,8 @@ public class PaymentService { // created by Abdullah Alwael
             throw new ApiException("Contract not found");
         }
 
-        if(contract.getStatus().equals("paid")){
-            throw new ApiException("Error, the contract was already paid!");
+        if(contract.getStatus().equalsIgnoreCase("PAID")){
+            throw new ApiException("Error, the contract invoice was already paid!");
         }
 
         String callBackUrl = "http://localhost:8080/api/v1/payment/callback/"+contract.getId();
@@ -93,7 +93,7 @@ public class PaymentService { // created by Abdullah Alwael
             throw new ApiException("Contract not found");
         }
 
-        contract.setStatus(status);
+        contract.setStatus(status.toUpperCase());
         contract.setTransactionId(transaction_id);
 
         contractRepository.save(contract);
