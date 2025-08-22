@@ -25,10 +25,6 @@ public class VendorService {
         return vendorRepository.findAll();
     }
 
-    public Vendor getVendor(Integer vendorId){
-        return vendorRepository.findVendorById(vendorId);
-    }
-
     public void addVendor(Vendor in) {
         if (vendorRepository.existsByEmail(in.getEmail()))
             throw new ApiException("Email already exists");
@@ -131,5 +127,9 @@ public class VendorService {
         Vendor v = vendorRepository.findVendorById(vendorId);
         if (v == null) throw new ApiException("Vendor not found");
         return v;
+    }
+
+    public List<Vendor> getTopVendors(){
+        return vendorRepository.giveMeTopFiveVendors();
     }
 }

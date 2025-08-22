@@ -1,5 +1,6 @@
 package com.spring.boot.springbootcapstone3.Model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -26,13 +27,28 @@ public class Contract {
     @Column(columnDefinition = "double not null")
     private double price;
 
+
     @NotNull(message = "startDate should not be empty")
     @Column(columnDefinition = "datetime not null")
+    @com.fasterxml.jackson.annotation.JsonFormat(shape = com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
     @NotNull(message = "endDate should not be empty")
     @Column(columnDefinition = "datetime not null")
+    @com.fasterxml.jackson.annotation.JsonFormat(shape = com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate endDate;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @Column(insertable = false,
+            updatable = false,
+            columnDefinition = "datetime not null default current_timestamp")
+    private LocalDateTime createdAt;
+
+    @Column(columnDefinition = "varchar(20) not null")
+    private String status = "UNPAID";
+
+    @Column(columnDefinition = "varchar(255)")
+    private String transactionId; // used to store the moyasar transaction id for later use
 
     @OneToOne(mappedBy = "contract")
     @JsonIgnore

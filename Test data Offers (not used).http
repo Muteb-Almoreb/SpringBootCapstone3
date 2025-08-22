@@ -1,0 +1,150 @@
+## can not add offers, vendors must be approved by the admin first
+### Add Offer - Vendor 1 to Request 1 - Landscape Maintenance
+POST http://localhost:8080/api/v1/offers/addOffer/1/1
+Content-Type: application/json
+
+{
+  "price": 25000.00,
+  "title": "Comprehensive Landscape Maintenance",
+  "description": "Full-service package for Aramco campus, including weekly trimming, irrigation checks, and pest control."
+}
+
+### Add Offer - Vendor 2 to Request 1 - Landscape Maintenance
+POST http://localhost:8080/api/v1/offers/addOffer/1/2
+Content-Type: application/json
+
+{
+  "price": 28500.00,
+  "title": "Premium Green Oasis Maintenance Plan",
+  "description": "Includes all routine services plus soil nutrient analysis and seasonal plant rotation."
+}
+
+### Add Offer - Vendor 3 to Request 2 - New Tree Planting
+POST http://localhost:8080/api/v1/offers/addOffer/2/3
+Content-Type: application/json
+
+{
+  "price": 150000.00,
+  "title": "Full-Service Palm Tree Installation",
+  "description": "Installation of 100 mature palm trees with a one-year guarantee and bi-monthly care visits."
+}
+
+### Add Offer - Vendor 4 to Request 2 - New Tree Planting
+POST http://localhost:8080/api/v1/offers/addOffer/2/4
+Content-Type: application/json
+
+{
+  "price": 145000.00,
+  "title": "Palm Masters Planting & Care Package",
+  "description": "Planting of 100 trees including initial care for 6 months. Price includes supply and transport."
+}
+
+### Add Offer - Vendor 5 to Request 3 - Green Roof
+POST http://localhost:8080/api/v1/offers/addOffer/3/5
+Content-Type: application/json
+
+{
+  "price": 450000.00,
+  "title": "STC Green Roof Installation",
+  "description": "Design and build of a comprehensive green roof system with an automated drip irrigation system."
+}
+
+### Add Offer - Vendor 6 to Request 4 - Desert Landscape
+POST http://localhost:8080/api/v1/offers/addOffer/4/6
+Content-Type: application/json
+
+{
+  "price": 320000.00,
+  "title": "Sustainable Desert Landscape Design",
+  "description": "Design and implementation of a xeriscape plan with indigenous plants for the NEOM visitor center."
+}
+
+### Add Offer - Vendor 7 to Request 5 - Resort Landscaping
+POST http://localhost:8080/api/v1/offers/addOffer/5/7
+Content-Type: application/json
+
+{
+  "price": 950000.00,
+  "title": "Red Sea Global Master Landscaping Plan",
+  "description": "Complete landscaping for the new resort, including public areas, poolsides, and private villas."
+}
+
+### Add Offer - Vendor 8 to Request 6 - Park Greening
+POST http://localhost:8080/api/v1/offers/addOffer/6/8
+Content-Type: application/json
+
+{
+  "price": 85000.00,
+  "title": "Public Park Beautification Project",
+  "description": "Transforming the park with new trees, flowerbeds, and a two-year maintenance contract."
+}
+
+### Add Offer - Vendor 9 to Request 7 - Office Garden
+POST http://localhost:8080/api/v1/offers/addOffer/7/9
+Content-Type: application/json
+
+{
+  "price": 15000.00,
+  "title": "Oasis Greening Office Garden Contract",
+  "description": "Monthly maintenance for all indoor and outdoor plants at the headquarters, including pruning and fertilizing."
+}
+
+### Add Offer - Vendor 10 to Request 8 - Residential Landscape
+POST http://localhost:8080/api/v1/offers/addOffer/8/10
+Content-Type: application/json
+
+{
+  "price": 500000.00,
+  "title": "Emaar The Economic City Full Landscape Package",
+  "description": "End-to-end service for the residential compound, from design to installation and initial care."
+}
+
+### Add Offer - Vendor 11 to Request 9 - Community Landscaping
+POST http://localhost:8080/api/v1/offers/addOffer/9/11
+Content-Type: application/json
+
+{
+  "price": 750000.00,
+  "title": "Najd Gardens Community Landscaping Plan",
+  "description": "Implementation of green corridors and public spaces for the new Roshn community."
+}
+
+### Add Offer - Vendor 12 to Request 10 - Corporate Garden
+POST http://localhost:8080/api/v1/offers/addOffer/10/12
+Content-Type: application/json
+
+{
+  "price": 18000.00,
+  "title": "Riyadh Greenery Corporate Maintenance",
+  "description": "A one-year contract for the upkeep of Jadwa's corporate gardens, with monthly check-ins."
+}
+
+### Add Offer - Vendor 13 to Request 11 - Farm Landscaping
+POST http://localhost:8080/api/v1/offers/addOffer/11/13
+Content-Type: application/json
+
+{
+  "price": 95000.00,
+  "title": "Green Future Windbreak Planting",
+  "description": "Planting of a windbreak hedge and shade trees around Almarai's farm perimeter."
+}
+
+### Add Offer - Vendor 14 to Request 12 - Mine Site Greening
+POST http://localhost:8080/api/v1/offers/addOffer/12/14
+Content-Type: application/json
+
+{
+  "price": 250000.00,
+  "title": "Mine Site Reclamation with Native Plants",
+  "description": "Reclamation and greening of a former mine site using resilient, native Saudi flora."
+}
+
+### Add Offer - Vendor 15 to Request 13 - Airport Plant Maintenance
+POST http://localhost:8080/api/v1/offers/addOffer/13/15
+Content-Type: application/json
+
+{
+  "price": 300000.00,
+  "title": "Saudia Flora Services Airport Maintenance",
+  "description": "Six-month contract for the comprehensive care of all landscaped areas within King Abdulaziz Airport."
+}

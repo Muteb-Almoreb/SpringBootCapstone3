@@ -4,6 +4,9 @@ import com.spring.boot.springbootcapstone3.Model.Contract;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
+import java.util.List;
+
 public interface ContractRepository extends JpaRepository<Contract, Integer> {
     boolean existsByServiceRequest_Id(Integer serviceRequestId);
     Contract findByServiceRequest_Id(Integer serviceRequestId);
@@ -18,4 +21,24 @@ public interface ContractRepository extends JpaRepository<Contract, Integer> {
            where c.id = :id
            """)
     Contract fetchGraphById(Integer id);
+
+    @Query("SELECT c FROM Contract c JOIN c.offer o " +
+            "WHERE c.startDate BETWEEN ?1 AND ?2 " +
+            "OR c.endDate BETWEEN ?1 AND ?2 " +
+            "AND o.vendor.id = ?3")
+    List<Contract> giveMeContractsByStartDateAndEndDateBetweenAndVendorId(LocalDate startDate
+            , LocalDate endDate
+            , Integer vendorId);
+
+    @Query("SELECT c FROM Contract c JOIN c.offer o " +
+            "WHERE o.vendor.id = ?1 " +
+            "AND c.status='UNPAID' " +
+            "AND c.createdAt <= current_date - 15 DAY")
+    List<Contract> giveMeOverdueContracts(Integer vendorId);
+
+    @Query("SELECT c FROM Contract c JOIN c.offer o " +
+            "WHERE o.vendor.id = ?1 " +
+            "AND c.endDate >= current_date " +
+            "AND c.endDate < current_date + 30 DAY")
+    List<Contract> giveMeAlmostExpiredContracts(Integer vendorId);
 }

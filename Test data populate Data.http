@@ -1,0 +1,324 @@
+### Add Admin - The Landscape Company
+POST http://localhost:8080/api/v1/admin/add
+Content-Type: application/json
+
+{
+  "email": "admin@thelandscape.sa",
+  "name": "Admin TLC"
+}
+
+### Add a new Vendor - Al-Mubarak Nursery
+POST http://localhost:8080/api/v1/vendor/add
+Content-Type: application/json
+
+{
+  "name": "Al-Mubarak Nursery",
+  "email": "al-mubarak.nursery@example.com",
+  "phone": "+966501234567"
+}
+
+### Add a new Vendor - Green Oasis
+POST http://localhost:8080/api/v1/vendor/add
+Content-Type: application/json
+
+{
+  "name": "Green Oasis Landscaping",
+  "email": "green.oasis@example.com",
+  "phone": "+966559876543"
+}
+
+### Add a new Vendor - Desert Bloom Gardens
+POST http://localhost:8080/api/v1/vendor/add
+Content-Type: application/json
+
+{
+  "name": "Desert Bloom Gardens",
+  "email": "desert.bloom@example.com",
+  "phone": "+966567890123"
+}
+
+### Add a new Vendor - The Palm Masters
+POST http://localhost:8080/api/v1/vendor/add
+Content-Type: application/json
+
+{
+  "name": "The Palm Masters",
+  "email": "palm.masters@example.com",
+  "phone": "+966591112233"
+}
+
+### Add a new Vendor - Saudi Plant Care
+POST http://localhost:8080/api/v1/vendor/add
+Content-Type: application/json
+
+{
+  "name": "Saudi Plant Care Services",
+  "email": "saudi.plant.care@example.com",
+  "phone": "+966584445566"
+}
+
+### Add a new Vendor - Urban Roots Nursery
+POST http://localhost:8080/api/v1/vendor/add
+Content-Type: application/json
+
+{
+  "name": "Urban Roots Nursery",
+  "email": "urban.roots@example.com",
+  "phone": "+966578889900"
+}
+
+### Add a new Vendor - Flora Arabia
+POST http://localhost:8080/api/v1/vendor/add
+Content-Type: application/json
+
+{
+  "name": "Flora Arabia Company",
+  "email": "flora.arabia@example.com",
+  "phone": "+966503334455"
+}
+
+### Add a new Vendor - Garden Gems
+POST http://localhost:8080/api/v1/vendor/add
+Content-Type: application/json
+
+{
+  "name": "Garden Gems Landscaping",
+  "email": "garden.gems@example.com",
+  "phone": "+966547778899"
+}
+
+### Add a new Vendor - Oasis Greening
+POST http://localhost:8080/api/v1/vendor/add
+Content-Type: application/json
+
+{
+  "name": "Oasis Greening Solutions",
+  "email": "oasis.greening@example.com",
+  "phone": "+966525556677"
+}
+
+### Add a new Vendor - EcoScapes
+POST http://localhost:8080/api/v1/vendor/add
+Content-Type: application/json
+
+{
+  "name": "EcoScapes",
+  "email": "ecoscape.ksa@example.com",
+  "phone": "+966519990011"
+}
+
+### Add a new Vendor - Najd Gardens
+POST http://localhost:8080/api/v1/vendor/add
+Content-Type: application/json
+
+{
+  "name": "Najd Gardens and Nurseries",
+  "email": "najd.gardens@example.com",
+  "phone": "+966530001122"
+}
+
+### Add a new Vendor - Riyadh Greenery
+POST http://localhost:8080/api/v1/vendor/add
+Content-Type: application/json
+
+{
+  "name": "Riyadh Greenery",
+  "email": "riyadh.greenery@example.com",
+  "phone": "+966540001122"
+}
+
+### Add a new Vendor - Green Future
+POST http://localhost:8080/api/v1/vendor/add
+Content-Type: application/json
+
+{
+  "name": "Green Future Planting",
+  "email": "green.future@example.com",
+  "phone": "+966551112233"
+}
+
+### Add a new Vendor - Desert Tree Experts
+POST http://localhost:8080/api/v1/vendor/add
+Content-Type: application/json
+
+{
+  "name": "Desert Tree Experts",
+  "email": "desert.tree@example.com",
+  "phone": "+966562223344"
+}
+
+### Add a new Vendor - Saudi Flora
+POST http://localhost:8080/api/v1/vendor/add
+Content-Type: application/json
+
+{
+  "name": "Saudi Flora Services",
+  "email": "saudi.flora@example.com",
+  "phone": "+966573334455"
+}
+
+### Add Organization - Saudi Aramco
+POST http://localhost:8080/api/v1/organizations/addOrganization
+Content-Type: application/json
+
+{
+"name": "Saudi Aramco",
+"email": "info@aramco.com",
+"phone": "+966138744567",
+"commercialRegister": "1010000001"
+}
+
+### Add Organization - SABIC
+POST http://localhost:8080/api/v1/organizations/addOrganization
+Content-Type: application/json
+
+{
+"name": "SABIC",
+"email": "info@sabic.com",
+"phone": "+966112258000",
+"commercialRegister": "1010020002"
+}
+
+### Add Organization - STC
+POST http://localhost:8080/api/v1/organizations/addOrganization
+Content-Type: application/json
+
+{
+"name": "STC",
+"email": "info@stc.com.sa",
+"phone": "+966114533500",
+"commercialRegister": "1010030003"
+}
+
+### Add Organization - NEOM
+POST http://localhost:8080/api/v1/organizations/addOrganization
+Content-Type: application/json
+
+{
+"name": "NEOM",
+"email": "info@neom.com",
+"phone": "+966144002000",
+"commercialRegister": "1010040004"
+}
+
+### Add Organization - Red Sea Global
+POST http://localhost:8080/api/v1/organizations/addOrganization
+Content-Type: application/json
+
+{
+"name": "Red Sea Global",
+"email": "info@redseaglobal.com",
+"phone": "+966122600200",
+"commercialRegister": "1010050005"
+}
+
+### Add Organization - Al-Faisaliah Group
+POST http://localhost:8080/api/v1/organizations/addOrganization
+Content-Type: application/json
+
+{
+"name": "Al-Faisaliah Group",
+"email": "info@alfaisaliah.com",
+"phone": "+966114644500",
+"commercialRegister": "1010060006"
+}
+
+### Add Organization - Kingdom Holding Company
+POST http://localhost:8080/api/v1/organizations/addOrganization
+Content-Type: application/json
+
+{
+"name": "Kingdom Holding Company",
+"email": "info@kingdomholding.com.sa",
+"phone": "+966112111111",
+"commercialRegister": "1010070007"
+}
+
+### Add Organization - Emaar
+POST http://localhost:8080/api/v1/organizations/addOrganization
+Content-Type: application/json
+
+{
+"name": "Emaar The Economic City",
+"email": "info@kaec.net",
+"phone": "+966125135111",
+"commercialRegister": "1010080008"
+}
+
+### Add Organization - Roshn
+POST http://localhost:8080/api/v1/organizations/addOrganization
+Content-Type: application/json
+
+{
+"name": "Roshn",
+"email": "info@roshn.sa",
+"phone": "+9668001230000",
+"commercialRegister": "1010090009"
+}
+
+### Add Organization - Jadwa Investment
+POST http://localhost:8080/api/v1/organizations/addOrganization
+Content-Type: application/json
+
+{
+"name": "Jadwa Investment",
+"email": "info@jadwa.com",
+"phone": "+966112791111",
+"commercialRegister": "1010100010"
+}
+
+### Add Organization - Almarai Company
+POST http://localhost:8080/api/v1/organizations/addOrganization
+Content-Type: application/json
+
+{
+"name": "Almarai Company",
+"email": "info@almarai.com",
+"phone": "+966114704000",
+"commercialRegister": "1010110011"
+}
+
+### Add Organization - Ma'aden
+POST http://localhost:8080/api/v1/organizations/addOrganization
+Content-Type: application/json
+
+{
+"name": "Ma'aden",
+"email": "info@maaden.com.sa",
+"phone": "+966118748000",
+"commercialRegister": "1010120012"
+}
+
+### Add Organization - Saudia
+POST http://localhost:8080/api/v1/organizations/addOrganization
+Content-Type: application/json
+
+{
+"name": "Saudia Airlines",
+"email": "info@saudia.com",
+"phone": "+966126860000",
+"commercialRegister": "1010130013"
+}
+
+### Add Organization - Alwaleed Philanthropies
+POST http://localhost:8080/api/v1/organizations/addOrganization
+Content-Type: application/json
+
+{
+"name": "Alwaleed Philanthropies",
+"email": "info@alwaleedphilanthropies.org",
+"phone": "+966112111111",
+"commercialRegister": "1010140014"
+}
+
+### Add Organization - Mobily
+POST http://localhost:8080/api/v1/organizations/addOrganization
+Content-Type: application/json
+
+{
+"name": "Mobily",
+"email": "info@mobily.com.sa",
+"phone": "+966560000000",
+"commercialRegister": "1010150015"
+}
+

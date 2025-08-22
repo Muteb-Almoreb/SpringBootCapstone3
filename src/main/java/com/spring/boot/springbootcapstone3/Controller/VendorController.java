@@ -67,4 +67,11 @@ public class VendorController {
         service.reinstate(id, adminId);
         return ResponseEntity.ok(new ApiResponse("Vendor reinstated"));
     }
+
+
+    // extra by abdullah
+    @GetMapping("/top-five")
+    public ResponseEntity<?> getTopVendors(){
+        return ResponseEntity.ok(service.getTopVendors());
+    }
 }
