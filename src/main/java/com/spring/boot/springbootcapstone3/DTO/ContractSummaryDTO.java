@@ -13,6 +13,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class ContractSummaryDTO {
     private double price;
+
     private LocalDate startDate;
+
     private LocalDate endDate;
 }
