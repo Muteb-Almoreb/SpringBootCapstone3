@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -131,9 +132,32 @@ public class ContractService {
         return contractRepository.giveMeOverdueContracts(vendorId);
     }
 
-    //  7. get almost expired contracts
     public List<Contract> getAlmostExpiredContracts(Integer vendorId){
         return contractRepository.giveMeAlmostExpiredContracts(vendorId);
+    }
+
+    //  11. contract renewal, date must be after end date,
+    //      it updates the contract payment status
+    //      and creates a new start-end date that is equivalent to the number of days
+
+    public void renewContract(Integer vendorId, Integer contractId){
+        Contract contract = getById(contractId); // this will check for contract existance
+
+        if (!contract.getOffer().getVendor().getId().equals(vendorId)){
+            throw new ApiException("error, the contract is not owned by the vendor specified");
+        }
+
+        if (contract.getEndDate().isAfter(LocalDate.now())){
+            throw new ApiException("Error, the contract did not expire yet!");
+        }
+
+        contract.setStatus("UNPAID"); // reset the payment status to allow another payment with the same price
+        long daysBetween = ChronoUnit.DAYS.between(contract.getStartDate(), contract.getEndDate());
+
+        contract.setStartDate(LocalDate.now().plusDays(1));
+        contract.setEndDate(LocalDate.now().plusDays(1+daysBetween));
+
+        contractRepository.save(contract);
     }
 
     // TODO:
@@ -144,8 +168,5 @@ public class ContractService {
     //            such as the total value of all active contracts
     //            or the number of contracts set to expire in the next month.
     //            It aggregates data, going beyond a simple list of records.
-    //  11. contract renewal, date must be after end date,
-    //      it updates the contract payment status
-    //      and creates a new start-end date that is equivalent to the number of days
 
 }

@@ -48,6 +48,7 @@ public class ContractController {
         return ResponseEntity.ok(contractService.buildPrintView(id));
     }
 
+    // extra by abdullah
     @GetMapping("/filter/date-between/{startDate}/{endDate}/{vendorId}")
     public ResponseEntity<?> getContractsBetweenDates(@PathVariable LocalDate startDate,
                                                       @PathVariable LocalDate endDate,
@@ -55,13 +56,22 @@ public class ContractController {
         return ResponseEntity.ok(contractService.getContractsBetweenDates(startDate, endDate, vendorId));
     }
 
+    // extra by abdullah
     @GetMapping("/filter/overdue/{vendorId}")
     public ResponseEntity<?> getOverdueContracts(@PathVariable Integer vendorId){
         return ResponseEntity.ok(contractService.getOverdueContracts(vendorId));
     }
 
+    // extra by abdullah
     @GetMapping("/filter/almost-expired/{vendorId}")
     public ResponseEntity<?> getAlmostExpiredContracts(@PathVariable Integer vendorId){
         return ResponseEntity.ok(contractService.getAlmostExpiredContracts(vendorId));
+    }
+
+    // extra by abdullah
+    @PutMapping("/renew/{vendorId}/{contractId}")
+    public ResponseEntity<?> renewContract(@PathVariable Integer vendorId, @PathVariable Integer contractId){
+        contractService.renewContract(vendorId, contractId);
+        return ResponseEntity.ok("Contract renewed successfully");
     }
 }
