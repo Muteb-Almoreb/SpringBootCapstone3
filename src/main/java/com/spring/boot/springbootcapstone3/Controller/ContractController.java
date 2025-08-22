@@ -1,5 +1,6 @@
 package com.spring.boot.springbootcapstone3.Controller;
 
+import com.spring.boot.springbootcapstone3.API.ApiResponse;
 import com.spring.boot.springbootcapstone3.DTO.ContractPrintResponse;
 import com.spring.boot.springbootcapstone3.Model.Contract;
 import com.spring.boot.springbootcapstone3.Service.ContractService;
@@ -72,6 +73,6 @@ public class ContractController {
     @PutMapping("/renew/{vendorId}/{contractId}")
     public ResponseEntity<?> renewContract(@PathVariable Integer vendorId, @PathVariable Integer contractId){
         contractService.renewContract(vendorId, contractId);
-        return ResponseEntity.ok("Contract renewed successfully");
+        return ResponseEntity.ok(new ApiResponse("Contract renewed successfully"));
     }
 }
