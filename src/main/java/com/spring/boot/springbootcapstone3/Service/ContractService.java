@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.spring.boot.springbootcapstone3.API.ApiException;
 import com.spring.boot.springbootcapstone3.Repository.ContractRepository;
 import com.spring.boot.springbootcapstone3.Repository.OfferRepository;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 import java.time.LocalDate;
@@ -123,7 +124,28 @@ public class ContractService {
     }
 
     public List<Contract> getContractsBetweenDates(LocalDate startDate, LocalDate endDate, Integer vendorId){
-        return contractRepository.getContractsByStartDateAndEndDateBetweenAndVendorId(startDate, endDate, vendorId);
+        return contractRepository.giveMeContractsByStartDateAndEndDateBetweenAndVendorId(startDate, endDate, vendorId);
     }
+
+    public List<Contract> getOverdueContracts(Integer vendorId){
+        return contractRepository.giveMeOverdueContracts(vendorId);
+    }
+
+    //  7. get almost expired contracts
+    public List<Contract> getAlmostExpiredContracts(Integer vendorId){
+        return contractRepository.giveMeAlmostExpiredContracts(vendorId);
+    }
+
+    // TODO:
+    //  7. refund request
+    //  8. sync invoice status from Moyasar API
+    //  9. /contracts/summary
+    //            This endpoint could provide a summary of contracts
+    //            such as the total value of all active contracts
+    //            or the number of contracts set to expire in the next month.
+    //            It aggregates data, going beyond a simple list of records.
+    //  11. contract renewal, date must be after end date,
+    //      it updates the contract payment status
+    //      and creates a new start-end date that is equivalent to the number of days
 
 }

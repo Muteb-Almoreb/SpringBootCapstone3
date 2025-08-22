@@ -1,5 +1,6 @@
 package com.spring.boot.springbootcapstone3.Model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -32,6 +34,12 @@ public class Contract {
     @NotNull(message = "endDate should not be empty")
     @Column(columnDefinition = "datetime not null")
     private LocalDate endDate;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @Column(insertable = false,
+            updatable = false,
+            columnDefinition = "datetime not null default current_timestamp")
+    private LocalDateTime createdAt;
 
     @Column(columnDefinition = "varchar(20) not null")
     private String status = "UNPAID";

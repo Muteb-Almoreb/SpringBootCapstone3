@@ -22,8 +22,23 @@ public interface ContractRepository extends JpaRepository<Contract, Integer> {
            """)
     Contract fetchGraphById(Integer id);
 
-    @Query("SELECT c FROM Contract c JOIN c.offer o WHERE o.vendor.id = ?1")
-    List<Contract> getContractsByStartDateAndEndDateBetweenAndVendorId(LocalDate startDate
+    @Query("SELECT c FROM Contract c JOIN c.offer o " +
+            "WHERE c.startDate BETWEEN ?1 AND ?2 " +
+            "OR c.endDate BETWEEN ?1 AND ?2 " +
+            "AND o.vendor.id = ?3")
+    List<Contract> giveMeContractsByStartDateAndEndDateBetweenAndVendorId(LocalDate startDate
             , LocalDate endDate
             , Integer vendorId);
+
+    @Query("SELECT c FROM Contract c JOIN c.offer o " +
+            "WHERE o.vendor.id = ?1 " +
+            "AND c.status='UNPAID' " +
+            "AND c.createdAt <= current_date - 15 DAY")
+    List<Contract> giveMeOverdueContracts(Integer vendorId);
+
+    @Query("SELECT c FROM Contract c JOIN c.offer o " +
+            "WHERE o.vendor.id = ?1 " +
+            "AND c.endDate >= current_date " +
+            "AND c.endDate < current_date + 30 DAY")
+    List<Contract> giveMeAlmostExpiredContracts(Integer vendorId);
 }

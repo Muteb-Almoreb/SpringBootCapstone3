@@ -132,4 +132,8 @@ public class VendorService {
         if (v == null) throw new ApiException("Vendor not found");
         return v;
     }
+
+    public List<Vendor> getTopVendors(){
+        return vendorRepository.giveMeTopFiveVendors();
+    }
 }
