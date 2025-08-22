@@ -14,16 +14,19 @@ import org.springframework.web.bind.annotation.*;
 public class PaymentController {
     private final PaymentService paymentService;
 
+    // extra by abdullah
     @PostMapping("/pay/{contractId}")
     public ResponseEntity<?> processPayment(@RequestBody PaymentRequest paymentRequest, @PathVariable Integer contractId) {
         return ResponseEntity.status(HttpStatus.OK).body(paymentService.processPayment(contractId, paymentRequest));
     }
 
+    // extra by abdullah
     @GetMapping("/get-status/{paymentId}")
     public ResponseEntity<?> getPaymentStatus(@PathVariable String paymentId) {
         return ResponseEntity.status(HttpStatus.OK).body(paymentService.getPaymentStatus(paymentId));
     }
 
+    // extra by abdullah
     @GetMapping("/callback/{contractId}")
     public ResponseEntity<?> callback(@PathVariable Integer contractId
             , @RequestParam(name = "id") String transaction_id
