@@ -10,9 +10,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ContractsStatisticsOutDTO {
-    private Double totalActiveContracts;
-    private Double totalExpiringSoonContracts;
-    private Double totalExpiredContracts;
+    private Long totalActiveContracts;
+    private Long totalExpiringSoonContracts;
+    private Long totalExpiredContracts;
     private Double totalPaidRevenue;
 
 }
