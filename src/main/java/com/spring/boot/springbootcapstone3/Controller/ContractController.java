@@ -3,7 +3,9 @@ package com.spring.boot.springbootcapstone3.Controller;
 import com.spring.boot.springbootcapstone3.API.ApiResponse;
 import com.spring.boot.springbootcapstone3.DTO.ContractPrintResponse;
 import com.spring.boot.springbootcapstone3.Model.Contract;
+import com.spring.boot.springbootcapstone3.Repository.ContractRepository;
 import com.spring.boot.springbootcapstone3.Service.ContractService;
+import com.spring.boot.springbootcapstone3.Service.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
@@ -22,6 +24,9 @@ import java.time.LocalDate;
 public class ContractController {
 
     private final ContractService contractService;
+    private final ContractRepository contractRepository;
+
+    private final EmailService emailService;
 
     @GetMapping("/{id}")
     public ResponseEntity<Contract> getById(@PathVariable Integer id) {
@@ -101,21 +106,20 @@ public class ContractController {
                 .body(bytes);
     }
 
-    /**
-     * Generate the PDF and send it by email using your existing sender.
-     * Adjust the method call to match your sender’s signature.
-     */
+
     @PostMapping("/{id}/email")
     public ResponseEntity<Void> emailPdf(@PathVariable Integer id,
-                                         @RequestParam String to,
+//                                         @RequestParam String to,
                                          @RequestParam(defaultValue = "Contract") String subject,
                                          @RequestParam(defaultValue = "Please find the contract attached.") String body) {
         File pdf = contractService.generateContractPdfFile(id);
+        Contract contract = contractRepository.findContractById(id);
+        String to = contract.getOffer().getVendor().getEmail();
 
-        // ---- Call your existing email sender here ----
-        // Example signatures (replace with your real one):
-        // mailService.sendWithAttachment(to, subject, body, pdf);                        // if it accepts File
-        // mailService.sendWithAttachment(to, subject, body, pdf, "contract-"+id+".pdf"); // if it needs a filename
+
+
+                              // if it accepts File
+        emailService.sendEmailWithContract(to,subject,body,id,pdf); // if it needs a filename
 
         return ResponseEntity.accepted().build();
     }

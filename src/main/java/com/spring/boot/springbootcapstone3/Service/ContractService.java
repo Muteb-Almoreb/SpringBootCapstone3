@@ -53,6 +53,12 @@ public class ContractService {
     private final ContractRepository contractRepository;
     private final OfferRepository offerRepository;
 
+
+
+    private static final double PLATFORM_FEE_RATE = 0.20; // 20%
+    private static double round2(double v){ return Math.round(v * 100.0) / 100.0; }
+
+
     public Contract getById(Integer id) {
         Contract c = contractRepository.findContractById(id);
         if (c == null) throw new ApiException("Contract not found");
@@ -97,17 +103,17 @@ public class ContractService {
         return c;
     }
 
-
     public ContractPrintResponse buildPrintView(Integer id) {
         Contract c = getContractGraph(id);
 
+        // contract
         ContractSummaryDTO contractDto = new ContractSummaryDTO(
                 c.getPrice(),
                 c.getStartDate(),
                 c.getEndDate()
-
         );
 
+        // serviceRequest + org
         ServiceRequest sr = c.getServiceRequest();
         Organization org = (sr != null) ? sr.getOrganization() : null;
 
@@ -125,6 +131,7 @@ public class ContractService {
                         org.getPhone()
                 );
 
+        // offer + vendor
         Offer offer = c.getOffer();
         Vendor vendor = (offer != null) ? offer.getVendor() : null;
 
@@ -144,14 +151,37 @@ public class ContractService {
 
         PartiesDTO parties = new PartiesDTO(orgDto, vendorDto);
 
+        // ======= التسعير:  عرض + عمولة 20% + إجمالي =======
+        double base = 0.0;
+        if (offer != null && offer.getPrice() != null) {
+            base = offer.getPrice();
+        } else if (c.getPrice() > 0) {
+            // fallback لو ما كان فيه عرض، خذ اللي في العقد
+            base = c.getPrice();
+        }
+        double platformFee = round2(base * PLATFORM_FEE_RATE);
+        double total = round2(base + platformFee);
+
+        PriceBreakdownDTO pricing = new PriceBreakdownDTO(
+                round2(base),
+                platformFee,
+                20.0,
+                total
+        );
+
+        // (اختياري) لو تبي تخزن الإجمالي داخل جدول العقد:
+        // c.setPrice(total);
+        // contractRepository.save(c);
 
         return new ContractPrintResponse(
                 contractDto,
                 parties,
                 srDto,
-                offerDto
+                offerDto,
+                pricing // << الجديد
         );
     }
+
 
     public List<Contract> getContractsBetweenDates(LocalDate startDate, LocalDate endDate, Integer vendorId){
         return contractRepository.giveMeContractsByStartDateAndEndDateBetweenAndVendorId(startDate, endDate, vendorId);

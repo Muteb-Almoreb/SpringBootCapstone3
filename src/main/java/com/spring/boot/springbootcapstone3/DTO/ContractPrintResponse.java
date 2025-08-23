@@ -14,4 +14,6 @@ public class ContractPrintResponse {
     private PartiesDTO parties;
     private ServiceRequestSummaryDTO serviceRequest;
     private OfferDTO offer;
+
+    private PriceBreakdownDTO pricing;
 }
