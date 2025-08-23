@@ -81,6 +81,12 @@ public class ContractController {
         return ResponseEntity.ok(new ApiResponse("Contract renewed successfully"));
     }
 
+    // extra by abdullah
+    @GetMapping("/statistics/{vendorId}")
+    public ResponseEntity<?> getContractsStatistics(@PathVariable Integer vendorId){
+        return ResponseEntity.ok(contractService.getContractsStatistics(vendorId));
+    }
+
     @GetMapping("/{id}/print/pdf")
     public ResponseEntity<byte[]> downloadPdf(@PathVariable Integer id) throws IOException {
         File pdf = contractService.generateContractPdfFile(id); // your single-method generator (returns File)

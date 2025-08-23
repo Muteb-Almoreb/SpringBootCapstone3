@@ -1,5 +1,6 @@
 package com.spring.boot.springbootcapstone3.Repository;
 
+import com.spring.boot.springbootcapstone3.DTO.ContractsStatisticsOutDTO;
 import com.spring.boot.springbootcapstone3.Model.Contract;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -41,4 +42,13 @@ public interface ContractRepository extends JpaRepository<Contract, Integer> {
             "AND c.endDate >= current_date " +
             "AND c.endDate < current_date + 30 DAY")
     List<Contract> giveMeAlmostExpiredContracts(Integer vendorId);
+    
+    @Query("SELECT " +
+            "    SUM(CASE WHEN c.endDate >= current_date THEN 1 ELSE 0 END) AS totalActiveContracts, " +
+            "    SUM(CASE WHEN c.endDate >= current_date AND c.endDate <= current_date + 30 DAY THEN 1 ELSE 0 END) AS totalExpiringSoonContracts, " +
+            "    SUM(CASE WHEN c.endDate < current_date THEN 1 ELSE 0 END) AS totalExpiredContracts, " +
+            "    SUM(CASE WHEN c.status = 'PAID' THEN c.price ELSE 0 END) AS totalPaidRevenue " +
+            "FROM Contract c JOIN c.offer o " +
+            "WHERE o.vendor.id = ?1")
+    ContractsStatisticsOutDTO giveMeContractsStatistics(Integer vendorId);
 }
