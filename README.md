@@ -12,9 +12,10 @@ Organizations
 
 Vendor
 
-| Method | Path                                            | Name             |
-| PUT    | `/api/v1/vendor/{id}/suspend/admin/{adminId}`   | Suspend vendor   |
-| PUT    | `/api/v1/vendor/{id}/reinstate/admin/{adminId}` | Reinstate vendor |
+| Method | Path                                                    | Name                                        |
+| ------ | ------------------------------------------------------- | ------------------------------------------- |
+| PUT    | `/api/v1/vendor/{id}/suspend/admin/{adminId}`           | Suspend vendor                              |
+| PUT    | `/api/v1/vendor/{id}/reinstate/admin/{adminId}`         | Reinstate vendor                            |
 
 Service Requests
 
@@ -25,9 +26,10 @@ Service Requests
 | POST   | `/api/v1/requests/addServiceRequest/{organizationId}`   | Create service request (under organization) |
 
 Contracts
-
-| GET    | `/api/v1/contract/by-request/{serviceRequestId}` | Get contract by service request ID |
-| GET    | `/api/v1/contract/by-offer/{offerId}`            | Get contract by offer ID           |
+| Method | Path                                                    | Name                                        |
+| ------ | ------------------------------------------------------- | ------------------------------------------- |
+| GET    | `/api/v1/contract/by-request/{serviceRequestId}`        | Get contract by service request ID          |
+| GET    | `/api/v1/contract/by-offer/{offerId}`                   | Get contract by offer ID                    |
 
 
 Mail
