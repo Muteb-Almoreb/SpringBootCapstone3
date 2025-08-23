@@ -28,15 +28,24 @@ public class Contract {
     private double price;
 
 
-    @NotNull(message = "startDate should not be empty")
-    @Column(columnDefinition = "datetime not null")
-    @com.fasterxml.jackson.annotation.JsonFormat(shape = com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+//    @NotNull(message = "startDate should not be empty")
+//    @Column(columnDefinition = "datetime not null")
+//    @com.fasterxml.jackson.annotation.JsonFormat(shape = com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+//    private LocalDate startDate;
+//
+//    @NotNull(message = "endDate should not be empty")
+//    @Column(columnDefinition = "datetime not null")
+//    @com.fasterxml.jackson.annotation.JsonFormat(shape = com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+//    private LocalDate endDate;
+
+    @NotNull
+    @Column(nullable = false)
     private LocalDate startDate;
 
-    @NotNull(message = "endDate should not be empty")
-    @Column(columnDefinition = "datetime not null")
-    @com.fasterxml.jackson.annotation.JsonFormat(shape = com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @NotNull
+    @Column(nullable = false)
     private LocalDate endDate;
+
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @Column(insertable = false,
