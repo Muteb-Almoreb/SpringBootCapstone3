@@ -18,6 +18,7 @@ public class OfferService {
     private final ServiceRequestRepository serviceRequestRepository;
     private final VendorRepository vendorRepository;
     private final ContractRepository contractRepository;
+    private final OrganizationRepository organizationRepository;
 
 
     public List<Offer> getAll() {
@@ -118,12 +119,19 @@ public class OfferService {
         offerRepository.delete(offer);
     }
 
-    public Offer acceptById(Integer offerId) {
+    public void acceptById(Integer offerId, Integer orgId) {
         Offer offer = offerRepository.findOfferById(offerId);
         if (offer == null) throw new ApiException("Offer not found");
 
+        Organization org = organizationRepository.findOrganizationById(orgId);
+        if (org == null) throw new ApiException("Organization id not found");
+
         ServiceRequest sr = offer.getServiceRequest();
         if (sr == null) throw new ApiException("Offer not linked to a ServiceRequest");
+
+        if (!sr.getOrganization().getId().equals(org.getId())) {
+            throw new ApiException("You are not allowed to accept offers for this ServiceRequest");
+        }
 
         if (!"PENDING".equalsIgnoreCase(offer.getStatus()))
             throw new ApiException("Only PENDING offers can be accepted");
@@ -134,11 +142,9 @@ public class OfferService {
         if (sr.getContract() != null || offer.getContract() != null)
             throw new ApiException("A contract already exists for this request/offer");
 
-        // 1) قبول العرض
         offer.setStatus("ACCEPTED");
         offerRepository.save(offer);
 
-        // 2) رفض بقية العروض (عدا WITHDRAWN)
         for (Offer o : offerRepository.findAllByServiceRequest_IdAndStatusNot(sr.getId(), "ACCEPTED")) {
             if (!"WITHDRAWN".equalsIgnoreCase(o.getStatus())) {
                 o.setStatus("REJECTED");
@@ -146,13 +152,12 @@ public class OfferService {
             }
         }
 
-        // 3) إغلاق الطلب (إن كان عندك حقل status)
         try {
             sr.setStatus("CLOSED");
             serviceRequestRepository.save(sr);
-        } catch (Exception ignore) { /* لو ما عندك status تجاهل */ }
+        } catch (Exception ignore) {}
 
-        return offer;
+
     }
 
 
@@ -184,7 +189,6 @@ public class OfferService {
         c.setEndDate(end);
         c.setServiceRequest(sr);
 
-        // نحفظ العقد أولاً ثم نربطه بالعرض
         Contract saved = contractRepository.save(c);
 
         offer.setContract(saved);
