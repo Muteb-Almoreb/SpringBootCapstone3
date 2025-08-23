@@ -4,7 +4,6 @@ package com.spring.boot.springbootcapstone3.Controller;
 import com.spring.boot.springbootcapstone3.API.ApiResponse;
 import com.spring.boot.springbootcapstone3.DTO.OfferDTO;
 import com.spring.boot.springbootcapstone3.Model.Contract;
-import com.spring.boot.springbootcapstone3.Model.Offer;
 import com.spring.boot.springbootcapstone3.Service.OfferService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -63,9 +62,10 @@ public class OfferController {
             return ResponseEntity.ok(new ApiResponse("Offer deleted successfully"));
         }
 
-    @PutMapping("/{offerId}/accept")
-    public Offer accept(@PathVariable Integer offerId) {
-        return offerService.acceptById(offerId);
+    @PutMapping("/{offerId}/accept/org/{orgId}")
+    public ResponseEntity<?> accept(@PathVariable Integer offerId, @PathVariable Integer orgId) {
+        offerService.acceptById(offerId, orgId);
+        return ResponseEntity.ok(new ApiResponse("Offer accepted successfully"));
     }
 
     @PostMapping("/{offerId}/contract")

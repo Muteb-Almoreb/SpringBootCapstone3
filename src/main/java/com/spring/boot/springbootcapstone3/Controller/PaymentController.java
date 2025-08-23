@@ -35,14 +35,14 @@ public class PaymentController {
             , @RequestParam(name = "message") String message) {
 
         paymentService.updateStatus(contractId, transaction_id, status);
-        // TODO write send invoice by email
+
         // example callback url:
         // http://localhost:8080/api/v1/payment/callback/1
 
         // the following parameters will be attached to the above link from Moyasar API:
         // ?id=074ab20f-ffeb-4d36-a103-6237b9629191
         // &status=paid
-        // &amount=50000 // TODO NOTE divide by 100
+        // &amount=50000
         // &message=APPROVED
 
         return ResponseEntity.status(HttpStatus.OK).body(
